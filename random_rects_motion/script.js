@@ -3,27 +3,31 @@ function getRandomInt(max) {
 }
 
 function getRandomIntInRange(min, max) {
-    return (Math.floor(Math.random() * (max - min)) + min);
+    min = Math.ceil(min);
+    return Math.floor(Math.random() * (Math.floor(max) - min + 1)) + min;
 }
 
 class Canvas {
     constructor(width=window.innerWidth, height=window.innerHeight) {
-        this.UPPER_BLOCK_LIMIT = width*height*1000
+        this.UPPER_BLOCK_LIMIT = width * height * 10
         this.UPPER_BLOCK_SIZE_LIMIT_DIVISION = 5
 
         this.width = width
         this.height = height
         this.canvas = null
         this.rects = []
+        this.nextBidirectionalRange = 10
+        this.iterationDelay = 180
 
         this.createCanvas()
         this.createGenesisRects()
         this.drawRects()
-        
-        for(;;) {
+
+        setInterval(() => {
             this.createNextRects()
+            this.canvas.clearRect(0, 0, canvas.width, canvas.height);
             this.drawRects()
-        }
+        }, this.iterationDelay);
     }
 
     createCanvas() {
@@ -51,10 +55,14 @@ class Canvas {
         for (let i = 0; i < this.rects.length; i++) {
             this.rects[i] = {
                 color: this.rects[i].color,
-                x: getRandomIntInRange(this.rects[i].x - 20, this.rects[i].x + 20),
-                y: getRandomIntInRange(this.rects[i].x - 20, this.rects[i].x + 20),
+                x: getRandomIntInRange(this.rects[i].x - this.nextBidirectionalRange, this.rects[i].x + this.nextBidirectionalRange),
+                y: getRandomIntInRange(this.rects[i].y - this.nextBidirectionalRange, this.rects[i].y + this.nextBidirectionalRange),
                 width: this.rects[i].width,
                 height: this.rects[i].height
+
+                // dynamic size variant:
+                // width: getRandomIntInRange(this.rects[i].width - 8, this.rects[i].width + 8),
+                // height: getRandomIntInRange(this.rects[i].height - 8, this.rects[i].height + 8)
             }
         }
     }
