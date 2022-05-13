@@ -15,7 +15,6 @@ class Canvas {
         this.height = height
         this.canvas = null
         this.rects = []
-        this.numrects= 0
 
         this.createCanvas()
         this.createGenesisRects()
@@ -37,8 +36,7 @@ class Canvas {
     }
 
     createGenesisRects() {
-        this.numrects = getRandomInt(this.UPPER_BLOCK_LIMIT)
-        for (let i = 0; i < this.numrects; i++) {
+        for (let i = 0; i < getRandomInt(this.UPPER_BLOCK_LIMIT); i++) {
             this.rects[i] = {
                 color: `rgb(${getRandomInt(255)}, ${getRandomInt(255)}, ${getRandomInt(255)})`,
                 x: getRandomInt(this.width),
@@ -50,7 +48,7 @@ class Canvas {
     }
 
     createNextRects() {
-        for (let i = 0; i < this.numrects; i++) {
+        for (let i = 0; i < this.rects.length; i++) {
             this.rects[i] = {
                 color: this.rects[i].color,
                 x: getRandomIntInRange(this.rects[i].x - 20, this.rects[i].x + 20),
