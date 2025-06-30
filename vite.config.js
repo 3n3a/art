@@ -1,26 +1,26 @@
-import { defineConfig } from ‘vite’
-import { resolve } from ‘path’
-import { readFileSync, readdirSync, copyFileSync, mkdirSync, writeFileSync } from ‘fs’
-import { marked } from ‘marked’
-import { fileURLToPath, URL } from ‘node:url’
+import { defineConfig } from 'vite'
+import { resolve } from 'path'
+import { readFileSync, readdirSync, copyFileSync, mkdirSync, writeFileSync } from 'fs'
+import { marked } from 'marked'
+import { fileURLToPath, URL } from 'node:url'
 
 const __filename = fileURLToPath(import.meta.url)
-const __dirname = resolve(__filename, ‘..’)
+const __dirname = resolve(__filename, '..')
 
 export default defineConfig({
 build: {
-outDir: ‘dist’,
+outDir: 'dist',
 rollupOptions: {
 input: {
-index: resolve(__dirname, ‘index.html’)
+index: resolve(__dirname, 'index.html')
 }
 },
 emptyOutDir: true
 },
 plugins: [{
-name: ‘markdown-to-html’,
+name: 'markdown-to-html',
 buildStart() {
-const md = readFileSync(‘README.md’, ‘utf-8’)
+const md = readFileSync('README.md', 'utf-8')
 const html = marked(md)
 const content = `<!DOCTYPE html>
 
