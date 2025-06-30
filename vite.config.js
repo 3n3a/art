@@ -22,9 +22,7 @@ name: 'markdown-to-html',
 buildStart() {
 const md = readFileSync('README.md', 'utf-8')
 const html = marked(md)
-const content = `<!DOCTYPE html>
-
-<html><head><meta charset="utf-8"><title>art</title></head><body>${html}</body></html>`
+const content = `<!doctype html><html lang="en">  <head>    <meta charset="utf-8">    <meta name="viewport" content="width=device-width, initial-scale=1">    <meta name="color-scheme" content="light dark"><link  rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">    <title>art</title>  </head>  <body>    <main class="container"> ${html} </main>  </body></html>`
 
 
   // Create index.html in project root for Vite to use as entry point
