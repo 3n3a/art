@@ -1,0 +1,12 @@
+{
+  "name": "art",
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "marked": "^11.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
