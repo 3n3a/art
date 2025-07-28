@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Pop It Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+    .game-container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        max-width: 600px;
+        width: 100%;
+    }
+
+    .title {
+        text-align: center;
+        color: white;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        font-weight: bold;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 30px;
+        font-size: 1.1em;
+    }
+
+    .stats {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        color: white;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    .stat-item {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px 20px;
+        border-radius: 15px;
+        backdrop-filter: blur(5px);
+    }
+
+    .pop-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+        gap: 15px;
+        justify-items: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+    }
+
+    .bubble {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        user-select: none;
+    }
+
+    .bubble.unpressed {
+        background: radial-gradient(circle at 30% 30%, #ff6b6b, #ff5252);
+        box-shadow: 
+            0 8px 16px rgba(0, 0, 0, 0.3),
+            inset 0 -4px 8px rgba(0, 0, 0, 0.2),
+            inset 0 4px 8px rgba(255, 255, 255, 0.3);
+        transform: translateY(0);
+    }
+
+    .bubble.pressed {
+        background: radial-gradient(circle at 70% 70%, #4CAF50, #388E3C);
+        box-shadow: 
+            0 2px 4px rgba(0, 0, 0, 0.2),
+            inset 0 4px 8px rgba(0, 0, 0, 0.3),
+            inset 0 -2px 4px rgba(255, 255, 255, 0.1);
+        transform: translateY(4px);
+    }
+
+    .bubble:hover:not(.pressed) {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 
+            0 12px 24px rgba(0, 0, 0, 0.4),
+            inset 0 -4px 8px rgba(0, 0, 0, 0.2),
+            inset 0 4px 8px rgba(255, 255, 255, 0.4);
+    }
+
+    .bubble:active {
+        transform: scale(0.95);
+    }
+
+    .bubble::before {
+        content: '';
+        position: absolute;
+        top: 10%;
+        left: 20%;
+        width: 30%;
+        height: 30%;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 50%;
+        transition: opacity 0.3s ease;
+    }
+
+    .bubble.pressed::before {
+        opacity: 0.1;
+    }
+
+    .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 25px;
+        font-size: 1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn:active {
+        transform: translateY(0);
+    }
+
+    .particle {
+        position: absolute;
+        pointer-events: none;
+        border-radius: 50%;
+        z-index: 1000;
+    }
+
+    @keyframes pop-particle {
+        0% {
+            opacity: 1;
+            transform: scale(0) translate(0, 0);
+        }
+        50% {
+            opacity: 0.8;
+            transform: scale(1) translate(var(--tx), var(--ty));
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0.5) translate(calc(var(--tx) * 2), calc(var(--ty) * 2));
+        }
+    }
+
+    @media (max-width: 480px) {
+        .bubble {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .pop-grid {
+            gap: 10px;
+        }
+        
+        .title {
+            font-size: 2em;
+        }
+    }
+</style>
+
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="title">🫧 Pop It! 🫧</h1>
+        <p class="subtitle">Click the bubbles to pop them and hear the satisfying sound!</p>
+    <div class="stats">
+        <div class="stat-item">
+            <span>Popped: </span>
+            <span id="poppedCount">0</span>
+        </div>
+        <div class="stat-item">
+            <span>Remaining: </span>
+            <span id="remainingCount">25</span>
+        </div>
+    </div>
+
+    <div class="pop-grid" id="popGrid">
+        <!-- Bubbles will be generated here -->
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-primary" onclick="resetGame()">🔄 Reset Game</button>
+        <button class="btn btn-secondary" onclick="toggleSound()">🔊 <span id="soundStatus">Sound On</span></button>
+    </div>
+</div>
+
+<script>
+    // Game state
+    let poppedCount = 0;
+    let totalBubbles = 25;
+    let soundEnabled = true;
+    let audioContext;
+    let bubbles = [];
+
+    // Initialize audio context
+    function initAudio() {
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    }
+
+    // Create pop sound effect using Web Audio API
+    function createPopSound(frequency = 800, duration = 0.1) {
+        if (!soundEnabled || !audioContext) return;
+
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        const filterNode = audioContext.createBiquadFilter();
+
+        // Configure oscillator
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(frequency * 0.5, audioContext.currentTime + duration);
+
+        // Configure filter for bubble-like sound
+        filterNode.type = 'lowpass';
+        filterNode.frequency.value = 2000;
+        filterNode.Q.value = 1;
+
+        // Configure gain (volume envelope)
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+
+        // Connect nodes
+        oscillator.connect(filterNode);
+        filterNode.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        // Play sound
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + duration);
+    }
+
+    // Create particle effect
+    function createParticles(x, y) {
+        const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7'];
+        
+        for (let i = 0; i < 6; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            particle.style.width = '8px';
+            particle.style.height = '8px';
+            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            const angle = (i / 6) * Math.PI * 2;
+            const distance = 30 + Math.random() * 20;
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance;
+            
+            particle.style.setProperty('--tx', tx + 'px');
+            particle.style.setProperty('--ty', ty + 'px');
+            particle.style.animation = 'pop-particle 0.6s ease-out forwards';
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 600);
+        }
+    }
+
+    // Pop bubble function
+    function popBubble(bubbleElement, index) {
+        if (bubbleElement.classList.contains('pressed')) return;
+
+        // Initialize audio context on first interaction
+        initAudio();
+
+        bubbleElement.classList.remove('unpressed');
+        bubbleElement.classList.add('pressed');
+        
+        // Create sound with slight frequency variation
+        const frequency = 600 + Math.random() * 400;
+        createPopSound(frequency);
+        
+        // Create particle effect
+        const rect = bubbleElement.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+        createParticles(x, y);
+        
+        poppedCount++;
+        updateStats();
+        
+        // Check if all bubbles are popped
+        if (poppedCount === totalBubbles) {
+            setTimeout(() => {
+                alert('🎉 Congratulations! You popped all the bubbles! 🎉');
+            }, 500);
+        }
+    }
+
+    // Update statistics
+    function updateStats() {
+        document.getElementById('poppedCount').textContent = poppedCount;
+        document.getElementById('remainingCount').textContent = totalBubbles - poppedCount;
+    }
+
+    // Generate bubbles
+    function generateBubbles() {
+        const grid = document.getElementById('popGrid');
+        grid.innerHTML = '';
+        bubbles = [];
+        
+        for (let i = 0; i < totalBubbles; i++) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble unpressed';
+            bubble.addEventListener('click', () => popBubble(bubble, i));
+            
+            // Add touch support for mobile
+            bubble.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                popBubble(bubble, i);
+            });
+            
+            grid.appendChild(bubble);
+            bubbles.push(bubble);
+        }
+    }
+
+    // Reset game
+    function resetGame() {
+        poppedCount = 0;
+        generateBubbles();
+        updateStats();
+        
+        // Play a different sound for reset
+        if (soundEnabled && audioContext) {
+            createPopSound(400, 0.2);
+        }
+    }
+
+    // Toggle sound
+    function toggleSound() {
+        soundEnabled = !soundEnabled;
+        const statusElement = document.getElementById('soundStatus');
+        statusElement.textContent = soundEnabled ? 'Sound On' : 'Sound Off';
+        
+        if (soundEnabled) {
+            initAudio();
+            createPopSound(600, 0.1);
+        }
+    }
+
+    // Initialize game
+    function initGame() {
+        generateBubbles();
+        updateStats();
+    }
+
+    // Start the game when page loads
+    window.addEventListener('load', initGame);
+
+    // Handle page visibility for audio context
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && audioContext && audioContext.state === 'suspended') {
+            audioContext.resume();
+        }
+    });
+</script>
+
+</body>
+</html>
