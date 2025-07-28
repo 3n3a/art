@@ -1,0 +1,197 @@
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+    .game-container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        max-width: 600px;
+        width: 100%;
+    }
+
+    .title {
+        text-align: center;
+        color: white;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        font-weight: bold;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 30px;
+        font-size: 1.1em;
+    }
+
+    .stats {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        color: white;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    .stat-item {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px 20px;
+        border-radius: 15px;
+        backdrop-filter: blur(5px);
+    }
+
+    .pop-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+        gap: 15px;
+        justify-items: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+    }
+
+    .bubble {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        user-select: none;
+    }
+
+    .bubble.unpressed {
+        background: radial-gradient(circle at 30% 30%, #ff6b6b, #ff5252);
+        box-shadow: 
+            0 8px 16px rgba(0, 0, 0, 0.3),
+            inset 0 -4px 8px rgba(0, 0, 0, 0.2),
+            inset 0 4px 8px rgba(255, 255, 255, 0.3);
+        transform: translateY(0);
+    }
+
+    .bubble.pressed {
+        background: radial-gradient(circle at 70% 70%, #4CAF50, #388E3C);
+        box-shadow: 
+            0 2px 4px rgba(0, 0, 0, 0.2),
+            inset 0 4px 8px rgba(0, 0, 0, 0.3),
+            inset 0 -2px 4px rgba(255, 255, 255, 0.1);
+        transform: translateY(4px);
+    }
+
+    .bubble:hover:not(.pressed) {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 
+            0 12px 24px rgba(0, 0, 0, 0.4),
+            inset 0 -4px 8px rgba(0, 0, 0, 0.2),
+            inset 0 4px 8px rgba(255, 255, 255, 0.4);
+    }
+
+    .bubble:active {
+        transform: scale(0.95);
+    }
+
+    .bubble::before {
+        content: '';
+        position: absolute;
+        top: 10%;
+        left: 20%;
+        width: 30%;
+        height: 30%;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 50%;
+        transition: opacity 0.3s ease;
+    }
+
+    .bubble.pressed::before {
+        opacity: 0.1;
+    }
+
+    .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 25px;
+        font-size: 1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn:active {
+        transform: translateY(0);
+    }
+
+    .particle {
+        position: absolute;
+        pointer-events: none;
+        border-radius: 50%;
+        z-index: 1000;
+    }
+
+    @keyframes pop-particle {
+        0% {
+            opacity: 1;
+            transform: scale(0) translate(0, 0);
+        }
+        50% {
+            opacity: 0.8;
+            transform: scale(1) translate(var(--tx), var(--ty));
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0.5) translate(calc(var(--tx) * 2), calc(var(--ty) * 2));
+        }
+    }
+
+    @media (max-width: 480px) {
+        .bubble {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .pop-grid {
+            gap: 10px;
+        }
+        
+        .title {
+            font-size: 2em;
+        }
+    }
