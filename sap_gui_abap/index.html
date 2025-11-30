@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="sapGuiApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAP GUI - Signature Theme</title>
+    <!-- AngularJS 1.8.2 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CORE VARIABLES & RESET --- */
+        :root {
+            --sap-blue-header-top: #Dcebf9;
+            --sap-blue-header-bottom: #b0cce9;
+            --sap-bg-color: #DEE4EA;
+            --sap-text-color: #000000;
+            --sap-input-bg: #FFFFFF;
+            --sap-input-required: #FFFDD0;
+            --sap-border-light: #ffffff;
+            --sap-border-dark: #8ba5c0;
+            --sap-toolbar-bg: #d3e1f1;
+            --sap-font-family: 'Tahoma', 'Arial', sans-serif;
+            --sap-btn-gradient-top: #f3f5f9;
+            --sap-btn-gradient-bottom: #cdd8e4;
+            --sap-list-bg: #FFFFFF;
+            --sap-list-header: #C3D5FD;
+            --sap-list-col-header: #D3DCEF;
+            --sap-list-zebra-odd: #F0F4F8;
+            --sap-list-zebra-even: #FFFFFF;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: var(--sap-font-family);
+            font-size: 11px;
+            background-color: var(--sap-bg-color);
+            color: var(--sap-text-color);
+            overflow: hidden;
+        }
+
+        /* --- LAYOUT --- */
+        .sap-window {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            border: 1px solid #444;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: var(--sap-bg-color);
+        }
+
+        /* --- MENU BAR --- */
+        .menu-bar {
+            background: linear-gradient(to bottom, var(--sap-blue-header-top), var(--sap-blue-header-bottom));
+            padding: 2px 5px;
+            border-bottom: 1px solid var(--sap-border-dark);
+            display: flex;
+            gap: 15px;
+            font-size: 11px;
+            user-select: none;
+        }
+        .menu-item {
+            cursor: pointer;
+            padding: 2px 5px;
+        }
+        .menu-item:hover {
+            background-color: rgba(255,255,255,0.4);
+            border-radius: 2px;
+        }
+
+        /* --- SYSTEM TOOLBAR --- */
+        .system-toolbar {
+            background-color: var(--sap-toolbar-bg);
+            border-top: 1px solid var(--sap-border-light);
+            border-bottom: 1px solid var(--sap-border-dark);
+            padding: 4px 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            border: 1px solid transparent;
+            background: transparent;
+            padding: 2px 4px;
+            cursor: pointer;
+            color: #444;
+            font-size: 14px;
+            border-radius: 2px;
+        }
+        .icon-btn:hover {
+            border: 1px solid #7e9bb5;
+            background: linear-gradient(to bottom, #fff, #dcebf9);
+            box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+        }
+        .icon-btn:active {
+            border: 1px solid #5d7a96;
+            background: #cbdcf0;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .icon-btn:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+        .separator {
+            width: 1px;
+            height: 20px;
+            background-color: #a0b0c0;
+            border-right: 1px solid #fff;
+            margin: 0 4px;
+        }
+
+        /* Command Field (T-Code) */
+        .command-field-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid #7f9db9;
+            background: white;
+            height: 20px;
+            width: 180px;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .command-field-container input {
+            border: none;
+            outline: none;
+            width: 100%;
+            height: 100%;
+            padding-left: 24px;
+            font-size: 11px;
+            font-family: inherit;
+        }
+        .command-field-icon {
+            position: absolute;
+            left: 2px;
+            top: 2px;
+            font-size: 10px;
+            color: #666;
+            cursor: pointer;
+        }
+        .command-trigger {
+            position: absolute;
+            right: 2px;
+            top: 2px;
+            font-size: 10px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        /* --- TITLE BAR --- */
+        .title-bar {
+            background: linear-gradient(to right, #dae7f6, #b8cfe6);
+            padding: 4px 10px;
+            font-weight: bold;
+            color: #333;
+            border-top: 1px solid var(--sap-border-light);
+            border-bottom: 1px solid var(--sap-border-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- APPLICATION TOOLBAR --- */
+        .app-toolbar {
+            background-color: #e5edf7;
+            padding: 3px 5px;
+            border-bottom: 1px solid var(--sap-border-dark);
+            display: flex;
+            gap: 5px;
+            min-height: 22px;
+        }
+        .sap-btn {
+            border: 1px solid #8e9bb3;
+            background: linear-gradient(to bottom, var(--sap-btn-gradient-top), var(--sap-btn-gradient-bottom));
+            padding: 2px 10px;
+            font-size: 11px;
+            cursor: pointer;
+            border-radius: 2px;
+            color: #000;
+        }
+        .sap-btn:hover {
+            border-color: #e68b2c;
+            background: linear-gradient(to bottom, #fff5e8, #ffe3c4);
+        }
+        .execute-btn {
+            color: #2b7d2b; /* Green tint for execute */
+        }
+
+        /* --- MAIN CONTENT AREA --- */
+        .main-content {
+            flex: 1;
+            padding: 10px;
+            overflow: auto;
+            background-color: var(--sap-bg-color);
+            position: relative;
+        }
+
+        /* TABS */
+        .sap-tabs {
+            margin-top: 10px;
+        }
+        .tab-headers {
+            display: flex;
+            border-bottom: 1px solid #8ba5c0;
+            padding-left: 5px;
+        }
+        .tab-header {
+            padding: 4px 12px;
+            margin-right: -1px;
+            border: 1px solid #8ba5c0;
+            border-bottom: none;
+            background: linear-gradient(to bottom, #eef3fa, #dcebf9);
+            cursor: pointer;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            color: #444;
+        }
+        .tab-header.active {
+            background: var(--sap-bg-color);
+            font-weight: bold;
+            border-bottom: 1px solid var(--sap-bg-color);
+            position: relative;
+            top: 1px;
+            color: #000;
+        }
+        .tab-content {
+            border: 1px solid #8ba5c0;
+            border-top: none;
+            padding: 15px;
+            background-color: var(--sap-bg-color);
+            min-height: 200px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* FORMS & GRIDS */
+        .sap-form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .sap-label {
+            width: 120px;
+            color: #444;
+        }
+        .sap-input {
+            border: 1px solid #7f9db9;
+            padding: 2px 4px;
+            font-size: 11px;
+            box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+            width: 180px;
+            outline: none;
+        }
+        .sap-input:focus {
+            background-color: #fff;
+            border-color: #d15600;
+        }
+        .sap-input.required {
+            background-color: var(--sap-input-required);
+        }
+        .sap-input.search-help {
+            width: 160px;
+            margin-right: 0;
+            border-right: none;
+        }
+        .search-btn {
+            width: 20px;
+            height: 21px;
+            border: 1px solid #7f9db9;
+            border-left: none;
+            background: #eef3fa;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #555;
+        }
+        .search-btn:hover {
+            background: #dcebf9;
+        }
+
+        /* CLASSIC LIST DISPLAY STYLES (ABAP REPORT) */
+        .sap-list-container {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: white;
+            border: 1px solid #8ba5c0;
+            padding: 10px;
+            min-height: 300px;
+            overflow: auto;
+            white-space: pre;
+        }
+        .list-header {
+            background-color: var(--sap-list-header);
+            font-weight: bold;
+            padding: 2px;
+            border-bottom: 1px solid #ccc;
+        }
+        .list-row {
+            padding: 1px 2px;
+        }
+        .list-row.odd { background-color: var(--sap-list-zebra-odd); }
+        .list-row.even { background-color: var(--sap-list-zebra-even); }
+        .list-int { color: #0000FF; } /* Integer color */
+        .list-res { color: #CC0000; } /* Result color */
+
+        .selection-screen-box {
+            border: 1px solid #aaa;
+            padding: 10px;
+            background: #f0f0f0;
+            margin-bottom: 15px;
+        }
+
+        /* TABLE CONTROL */
+        .sap-table-wrapper {
+            border: 1px solid #999;
+            background: white;
+            margin-top: 10px;
+        }
+        .sap-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+        .sap-table th {
+            background: linear-gradient(to bottom, #eee, #d0d0d0);
+            border: 1px solid #999;
+            padding: 4px;
+            text-align: left;
+            font-weight: normal;
+            color: #333;
+        }
+        .sap-table td {
+            border: 1px solid #ccc;
+            padding: 0;
+        }
+        .sap-table input {
+            width: 100%;
+            border: none;
+            padding: 3px;
+            box-sizing: border-box;
+            background: transparent;
+        }
+        .sap-table tr:nth-child(even) input {
+            background-color: #f2f9ff;
+        }
+        .sap-table input:focus {
+            background-color: #fff;
+            box-shadow: inset 0 0 0 1px #d15600;
+        }
+
+        /* --- STATUS BAR --- */
+        .status-bar {
+            background-color: #DEE4EA;
+            border-top: 1px solid #999;
+            padding: 2px 5px;
+            font-size: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 24px;
+        }
+        .status-msg {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #333;
+            flex: 1;
+        }
+        .status-info {
+            display: flex;
+            border-left: 1px solid #999;
+            border-right: 1px solid #fff;
+        }
+        .status-field {
+            padding: 0 10px;
+            border-right: 1px solid #999;
+            border-left: 1px solid #fff;
+            color: #555;
+            cursor: pointer;
+            position: relative;
+        }
+        .status-field:hover {
+            background-color: #e5edf7;
+        }
+        
+        .hidden { display: none; }
+        .text-success { color: #007833; }
+        .text-error { color: #cc0000; }
+        
+        /* Modal for F4 Help (Mock) */
+        .f4-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            background: #DEE4EA;
+            border: 1px solid #000;
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+            z-index: 100;
+        }
+        .modal-header {
+            background: linear-gradient(to right, #002e6e, #5c86b8);
+            color: white;
+            padding: 5px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+        .modal-body {
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #999;
+            margin: 5px;
+        }
+        .f4-item {
+            padding: 3px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        .f4-item:hover {
+            background-color: #ffe3c4;
+        }
+        
+    </style>
+</head>
+<body ng-controller="MainController as ctrl">
+
+    <div class="sap-window">
+        <!-- 1. MENU BAR -->
+        <div class="menu-bar">
+            <div class="menu-item" ng-click="ctrl.showMsg('Menu clicked')">Menu</div>
+            <div class="menu-item" ng-click="ctrl.showMsg('Edit clicked')">Edit</div>
+            <div class="menu-item" ng-click="ctrl.showMsg('Favorites clicked')">Favorites</div>
+            <div class="menu-item" ng-click="ctrl.showMsg('Extras clicked')">Extras</div>
+            <div class="menu-item" ng-click="ctrl.showMsg('System clicked')">System</div>
+            <div class="menu-item" ng-click="ctrl.showMsg('Help clicked')">Help</div>
+        </div>
+
+        <!-- 2. STANDARD TOOLBAR -->
+        <div class="system-toolbar">
+            <button class="icon-btn text-success" title="Enter" ng-click="ctrl.handleEnter()"><i class="fas fa-check"></i></button>
+            
+            <!-- Command Field -->
+            <div class="command-field-container">
+                <i class="fas fa-caret-down command-field-icon"></i>
+                <input type="text" ng-model="ctrl.tCode" ng-keypress="ctrl.checkEnter($event)" />
+                <i class="fas fa-times command-trigger" ng-if="ctrl.tCode" ng-click="ctrl.tCode=''"></i>
+            </div>
+
+            <button class="icon-btn" title="Save (Ctrl+S)" ng-click="ctrl.save()" ng-disabled="ctrl.currentScreen !== 'VA01'"><i class="fas fa-save"></i></button>
+            <div class="separator"></div>
+            <button class="icon-btn" title="Back (F3)" ng-click="ctrl.goBack()"><i class="fas fa-arrow-left" style="color: #007833;"></i></button>
+            <button class="icon-btn" title="Exit (Shift+F3)" ng-click="ctrl.exit()"><i class="fas fa-arrow-up" style="color: #eebb00;"></i></button>
+            <button class="icon-btn" title="Cancel (F12)" ng-click="ctrl.cancel()"><i class="fas fa-times" style="color: #cc0000;"></i></button>
+            <div class="separator"></div>
+            <button class="icon-btn" title="Print"><i class="fas fa-print"></i></button>
+            <button class="icon-btn" title="Find"><i class="fas fa-binoculars"></i></button>
+            <div class="separator"></div>
+            <!-- EXECUTE BUTTON (Only valid for Reports) -->
+            <button class="icon-btn execute-btn" title="Execute (F8)" ng-click="ctrl.executeKaprekar()" ng-if="ctrl.currentScreen === 'ZKAP'"><i class="fas fa-clock"></i><i class="fas fa-check" style="font-size: 8px; margin-left: -5px; vertical-align: bottom;"></i></button>
+        </div>
+
+        <!-- 3. TITLE BAR -->
+        <div class="title-bar">
+            <span>{{ctrl.screenTitle}}</span>
+            <div style="font-size: 10px; color: #666;">
+                <i class="fas fa-window-minimize" style="margin-right:5px; cursor:pointer;"></i>
+                <i class="fas fa-window-restore" style="margin-right:5px; cursor:pointer;"></i>
+                <i class="fas fa-times" style="cursor:pointer;"></i>
+            </div>
+        </div>
+
+        <!-- 4. APPLICATION TOOLBAR (Dynamic based on screen) -->
+        <div class="app-toolbar" ng-if="ctrl.currentScreen === 'VA01'">
+            <button class="sap-btn" ng-click="ctrl.appAction('Display Header')">Header Data</button>
+            <button class="sap-btn" ng-click="ctrl.appAction('Item Conditions')">Conditions</button>
+            <button class="sap-btn" ng-click="ctrl.appAction('Incompletion Log')">Incompletion Log</button>
+            <div class="separator"></div>
+            <button class="sap-btn" ng-click="ctrl.addItem()">Add Line</button>
+            <button class="sap-btn" ng-click="ctrl.deleteItem()">Delete Line</button>
+        </div>
+        
+        <!-- App Toolbar for Report (usually empty or specific functions) -->
+        <div class="app-toolbar" ng-if="ctrl.currentScreen === 'ZKAP'">
+            <button class="sap-btn" ng-click="ctrl.resetKaprekar()">New Calculation</button>
+            <button class="sap-btn" ng-click="ctrl.appAction('Documentation')">Documentation</button>
+        </div>
+
+        <!-- 5. MAIN CONTENT -->
+        <div class="main-content">
+            
+            <!-- VIEW: SALES ORDER (VA01) -->
+            <div ng-show="ctrl.currentScreen === 'VA01'">
+                <!-- Header Form Area -->
+                <div style="margin-bottom: 20px;">
+                    <div class="sap-form-row">
+                        <div class="sap-label">Order Type</div>
+                        <div style="display:flex;">
+                            <input type="text" class="sap-input required search-help" ng-model="ctrl.orderType" placeholder="OR">
+                            <div class="search-btn" ng-click="ctrl.openF4('Order Type')"><i class="fas fa-copy"></i></div>
+                        </div>
+                        <div class="sap-label" style="margin-left: 20px; width: 80px;">Sales Org.</div>
+                        <input type="text" class="sap-input required" value="1000" style="width: 60px;">
+                        <input type="text" class="sap-input" value="10" style="width: 40px; margin-left: 5px;">
+                        <input type="text" class="sap-input" value="00" style="width: 40px; margin-left: 5px;">
+                    </div>
+                    <div class="sap-form-row">
+                        <div class="sap-label">Sold-To Party</div>
+                        <div style="display:flex;">
+                            <input type="text" class="sap-input required search-help" ng-model="ctrl.soldTo">
+                            <div class="search-btn" ng-click="ctrl.openF4('Sold-To Party')"><i class="fas fa-copy"></i></div>
+                        </div>
+                        <span style="margin-left: 10px; color: #666;">{{ctrl.soldToName}}</span>
+                    </div>
+                    <div class="sap-form-row">
+                        <div class="sap-label">PO Number</div>
+                        <input type="text" class="sap-input" ng-model="ctrl.poNumber">
+                        <div class="sap-label" style="margin-left: 20px; width: 80px;">PO Date</div>
+                        <input type="text" class="sap-input" value="30.11.2025" style="width: 100px;">
+                    </div>
+                </div>
+
+                <!-- TABS -->
+                <div class="sap-tabs">
+                    <div class="tab-headers">
+                        <div class="tab-header" ng-class="{'active': ctrl.activeTab === 'overview'}" ng-click="ctrl.activeTab = 'overview'">Sales</div>
+                        <div class="tab-header" ng-class="{'active': ctrl.activeTab === 'item_detail'}" ng-click="ctrl.activeTab = 'item_detail'">Item Detail</div>
+                        <div class="tab-header" ng-class="{'active': ctrl.activeTab === 'ordering'}" ng-click="ctrl.activeTab = 'ordering'">Ordering Party</div>
+                        <div class="tab-header" ng-class="{'active': ctrl.activeTab === 'procurement'}" ng-click="ctrl.activeTab = 'procurement'">Procurement</div>
+                        <div class="tab-header" ng-class="{'active': ctrl.activeTab === 'shipping'}" ng-click="ctrl.activeTab = 'shipping'">Shipping</div>
+                    </div>
+
+                    <div class="tab-content" ng-show="ctrl.activeTab === 'overview'">
+                        <!-- ALV Grid Simulation -->
+                        <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
+                            <strong>All Items</strong>
+                            <div>
+                                <button class="icon-btn" style="padding:0 2px;"><i class="fas fa-sort-amount-down"></i></button>
+                                <button class="icon-btn" style="padding:0 2px;"><i class="fas fa-filter"></i></button>
+                                <button class="icon-btn" style="padding:0 2px;"><i class="fas fa-calculator"></i></button>
+                            </div>
+                        </div>
+                        <div class="sap-table-wrapper">
+                            <table class="sap-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 30px;"></th>
+                                        <th style="width: 60px;">Item</th>
+                                        <th>Material</th>
+                                        <th style="width: 80px;">Order Qty</th>
+                                        <th style="width: 40px;">SU</th>
+                                        <th>Description</th>
+                                        <th>Plant</th>
+                                        <th style="width: 80px;">Net Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in ctrl.items">
+                                        <td style="background-color:#ddeeff; text-align:center; cursor:pointer;" ng-click="ctrl.selectRow($index)">
+                                            <i class="fas fa-caret-right" ng-if="item.selected"></i>
+                                        </td>
+                                        <td><input type="text" ng-model="item.pos" readonly style="text-align:right;"></td>
+                                        <td>
+                                            <div style="display:flex;">
+                                                <input type="text" ng-model="item.material" style="width:85%;">
+                                                <div class="search-btn" style="width:15%; height:14px; font-size:8px; border:none; background:transparent;"><i class="fas fa-copy"></i></div>
+                                            </div>
+                                        </td>
+                                        <td><input type="text" ng-model="item.qty" style="text-align:right;"></td>
+                                        <td><input type="text" ng-model="item.uom" readonly></td>
+                                        <td><input type="text" ng-model="item.desc" readonly></td>
+                                        <td><input type="text" ng-model="item.plant"></td>
+                                        <td><input type="text" ng-model="item.value" style="text-align:right;" readonly></td>
+                                    </tr>
+                                    <tr ng-repeat="n in [1,2,3,4]">
+                                        <td style="background-color:#ddeeff;"></td>
+                                        <td><input type="text"></td>
+                                        <td><input type="text"></td>
+                                        <td><input type="text"></td>
+                                        <td><input type="text"></td>
+                                        <td><input type="text"></td>
+                                        <td><input type="text"></td>
+                                        <td><input type="text"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" ng-show="ctrl.activeTab !== 'overview'">
+                        <p style="color:#666; font-style:italic; padding: 20px;">Tab contents for {{ctrl.activeTab}} would appear here...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: KAPREKAR CALCULATOR (ZKAP) -->
+            <div ng-show="ctrl.currentScreen === 'ZKAP'">
+                
+                <!-- SELECTION SCREEN -->
+                <div class="selection-screen-box">
+                    <div style="font-weight:bold; margin-bottom:10px; color:#333;">Selection Criteria</div>
+                    <div class="sap-form-row">
+                        <div class="sap-label" style="width: 150px;">Input Number (4 digits)</div>
+                        <input type="text" class="sap-input required" ng-model="ctrl.kapInput" placeholder="1234" maxlength="4">
+                    </div>
+                    <div class="sap-form-row">
+                         <div class="sap-label" style="width: 150px;">Max Iterations</div>
+                         <input type="text" class="sap-input" value="20" style="width: 50px;" readonly>
+                    </div>
+                </div>
+
+                <!-- LIST OUTPUT -->
+                <div class="sap-list-container" ng-if="ctrl.kapResults.length > 0">
+<div class="list-header">ZKAPREKAR_CALC                                         1          1</div>
+<div class="list-header">-----------------------------------------------------------------------</div>
+<div class="list-header">Kaprekar Constant Calculation Routine</div>
+<div class="list-header">-----------------------------------------------------------------------</div>
+<div style="margin-bottom: 10px;"></div>
+<div ng-repeat="line in ctrl.kapResults track by $index" class="list-row" ng-class-odd="'odd'" ng-class-even="'even'">
+{{line}}
+</div>
+<div style="border-top: 1px solid #ccc; margin-top: 5px; padding-top: 5px;">
+*** End of List ***
+</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 6. STATUS BAR -->
+        <div class="status-bar">
+            <div class="status-msg">
+                <i ng-class="ctrl.statusIcon"></i>
+                <span>{{ctrl.statusMessage}}</span>
+            </div>
+            <div class="status-info">
+                <div class="status-field" ng-click="ctrl.toggleStatusDetails()">S4H (1) 020</div>
+                <div class="status-field" title="Session manager">
+                    <i class="fas fa-desktop"></i>
+                </div>
+                <div class="status-field" style="width: 50px;">INS</div>
+            </div>
+        </div>
+
+        <!-- F4 HELP MODAL -->
+        <div class="f4-modal" ng-if="ctrl.showF4">
+            <div class="modal-header">
+                <span>Restrict Value Range: {{ctrl.f4Title}}</span>
+                <i class="fas fa-times" style="cursor:pointer;" ng-click="ctrl.closeF4()"></i>
+            </div>
+            <div class="modal-body">
+                <div class="f4-item" ng-click="ctrl.selectF4('1000', 'Tech Solutions Inc.')">1000 - Tech Solutions Inc.</div>
+                <div class="f4-item" ng-click="ctrl.selectF4('2000', 'Global Trade Corp')">2000 - Global Trade Corp</div>
+                <div class="f4-item" ng-click="ctrl.selectF4('3000', 'Meyer & Sons')">3000 - Meyer & Sons</div>
+                <div class="f4-item" ng-click="ctrl.selectF4('3500', 'Logistics AG')">3500 - Logistics AG</div>
+                <div class="f4-item" ng-click="ctrl.selectF4('4000', 'Retail World')">4000 - Retail World</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var app = angular.module('sapGuiApp', []);
+
+        app.controller('MainController', function($scope, $timeout) {
+            var vm = this;
+
+            // --- Navigation State ---
+            // 'VA01' = Sales Order
+            // 'ZKAP' = Kaprekar Routine
+            vm.currentScreen = 'VA01'; 
+
+            // --- Common State ---
+            vm.tCode = "/nVA01";
+            vm.screenTitle = "Create Standard Order: Overview";
+            
+            // --- Sales Order State ---
+            vm.activeTab = 'overview';
+            vm.orderType = 'OR';
+            vm.soldTo = '';
+            vm.soldToName = '';
+            vm.poNumber = '';
+            vm.items = [
+                { pos: '10', material: 'M-01-T500', qty: '10', uom: 'PC', desc: 'Turbo Drive 500', plant: '1000', value: '5,000.00', selected: false },
+                { pos: '20', material: 'P-99-X100', qty: '5', uom: 'PC', desc: 'Power Supply Unit', plant: '1000', value: '250.00', selected: false }
+            ];
+
+            // --- Kaprekar State ---
+            vm.kapInput = "";
+            vm.kapResults = [];
+
+            // Status Bar State
+            vm.statusMessage = "Please enter Sold-To Party.";
+            vm.statusIcon = "fas fa-exclamation-circle text-error"; 
+
+            // --- Navigation Logic ---
+            vm.checkEnter = function(event) {
+                if (event.which === 13) {
+                    vm.handleEnter();
+                }
+            };
+
+            vm.handleEnter = function() {
+                // Check Command Field first
+                if (vm.tCode.toUpperCase().startsWith('/N')) {
+                    var code = vm.tCode.toUpperCase().substring(2);
+                    if (code === 'ZKAP') {
+                        vm.switchToKaprekar();
+                    } else if (code === 'VA01') {
+                        vm.switchToSales();
+                    } else {
+                        vm.statusMessage = "Transaction " + code + " does not exist.";
+                        vm.statusIcon = "fas fa-times-circle text-error";
+                    }
+                    return;
+                }
+
+                // If not navigating, perform screen action
+                if (vm.currentScreen === 'VA01') {
+                    vm.simulateSalesEnter();
+                } else if (vm.currentScreen === 'ZKAP') {
+                    // Enter usually triggers Execute on selection screens
+                    vm.executeKaprekar(); 
+                }
+            };
+
+            vm.switchToKaprekar = function() {
+                vm.currentScreen = 'ZKAP';
+                vm.screenTitle = "Kaprekar Constant Routine (ZKAPREKAR)";
+                vm.tCode = "";
+                vm.statusMessage = "Please enter 4-digit number and execute (F8)";
+                vm.statusIcon = "";
+                vm.kapResults = [];
+                vm.kapInput = "";
+            };
+
+            vm.switchToSales = function() {
+                vm.currentScreen = 'VA01';
+                vm.screenTitle = "Create Standard Order: Overview";
+                vm.tCode = "";
+                vm.statusMessage = "Please enter Sold-To Party.";
+                vm.statusIcon = "fas fa-exclamation-circle text-error";
+            };
+
+            // --- Kaprekar Logic ---
+            vm.executeKaprekar = function() {
+                vm.kapResults = [];
+                var numStr = vm.kapInput;
+
+                // Validation
+                if (!numStr || numStr.length !== 4 || isNaN(numStr)) {
+                    vm.statusMessage = "Please enter a valid 4-digit number.";
+                    vm.statusIcon = "fas fa-times-circle text-error";
+                    return;
+                }
+
+                // Check for at least two different digits
+                var uniqueDigits = new Set(numStr.split(''));
+                if (uniqueDigits.size < 2) {
+                    vm.statusMessage = "Number must have at least two different digits.";
+                    vm.statusIcon = "fas fa-times-circle text-error";
+                    return;
+                }
+
+                vm.statusMessage = "Program executing...";
+                vm.statusIcon = "fas fa-spinner fa-spin";
+
+                // Artificial delay for "processing" feel
+                $timeout(function() {
+                    vm.runKaprekarLoop(parseInt(numStr));
+                    vm.statusMessage = "Calculation finished.";
+                    vm.statusIcon = "fas fa-check-circle text-success";
+                }, 500);
+            };
+
+            vm.resetKaprekar = function() {
+                vm.kapResults = [];
+                vm.kapInput = "";
+                vm.statusMessage = "Enter parameters.";
+                vm.statusIcon = "";
+            };
+
+            vm.runKaprekarLoop = function(startNum) {
+                var current = startNum;
+                var count = 0;
+                var KAPREKAR = 6174;
+                
+                // Helper to pad with zeros
+                var pad = (n) => String(n).padStart(4, '0');
+
+                // Header
+                vm.kapResults.push(`STARTING VALUE: ${pad(current)}`);
+                vm.kapResults.push("--------------------------------------------------");
+                vm.kapResults.push("ITER  | DESCENDING | ASCENDING  | DIFFERENCE");
+                vm.kapResults.push("--------------------------------------------------");
+
+                while (current !== KAPREKAR && count < 20) {
+                    count++;
+                    var s = pad(current);
+                    
+                    // Sort Desc
+                    var descStr = s.split('').sort((a,b) => b - a).join('');
+                    var descNum = parseInt(descStr);
+
+                    // Sort Asc
+                    var ascStr = s.split('').sort((a,b) => a - b).join('');
+                    var ascNum = parseInt(ascStr);
+
+                    var diff = descNum - ascNum;
+
+                    // Format Line: SAP Style Spacing
+                    // "   1  | 4321       | 1234       | 3087"
+                    var line = `   ${String(count).padEnd(3)}| ${descStr.padEnd(11)}| ${ascStr.padEnd(11)}| ${String(diff)}`;
+                    
+                    vm.kapResults.push(line);
+
+                    if (diff === 0) {
+                        vm.kapResults.push("Error: Result is 0. Cannot converge.");
+                        break;
+                    }
+
+                    current = diff;
+                }
+
+                if (current === KAPREKAR) {
+                     vm.kapResults.push("--------------------------------------------------");
+                     vm.kapResults.push(`CONVERGED TO ${KAPREKAR} IN ${count} STEPS.`);
+                }
+            };
+
+            // --- Sales Order Logic (Existing) ---
+            vm.simulateSalesEnter = function() {
+                if (!vm.soldTo) {
+                    vm.statusMessage = "Fill in all required entry fields";
+                    vm.statusIcon = "fas fa-times-circle text-error";
+                } else {
+                    vm.statusMessage = "Standard Order data checking...";
+                    vm.statusIcon = "fas fa-spinner fa-spin";
+                    $timeout(function() {
+                        vm.statusMessage = "Data is valid.";
+                        vm.statusIcon = "fas fa-check-circle text-success";
+                        vm.soldToName = "Tech Solutions Inc.";
+                    }, 800);
+                }
+            };
+
+            vm.save = function() {
+                if(!vm.soldTo) {
+                    vm.simulateSalesEnter();
+                    return;
+                }
+                vm.statusMessage = "Standard Order 120003495 has been saved.";
+                vm.statusIcon = "fas fa-check-circle text-success";
+                vm.tCode = "";
+            };
+
+            vm.goBack = function() {
+                if (vm.currentScreen === 'ZKAP') {
+                    // Back in report usually goes to selection or main menu
+                    vm.switchToSales(); 
+                } else {
+                    vm.statusMessage = "Data will be lost. Do you want to save?";
+                    vm.statusIcon = "fas fa-question-circle";
+                }
+            };
+            
+            vm.exit = function() {
+                document.body.innerHTML = "<div style='display:flex;justify-content:center;align-items:center;height:100%;background:#002e6e;color:white;'><h1>SAP Logoff Successful</h1></div>";
+            };
+            
+            vm.cancel = function() {
+                vm.statusMessage = "Action cancelled.";
+                vm.statusIcon = "fas fa-ban";
+            };
+
+            vm.appAction = function(actionName) {
+                vm.statusMessage = "Function '" + actionName + "' selected.";
+                vm.statusIcon = "fas fa-info-circle text-success";
+            };
+            
+            vm.showMsg = function(msg) {
+                alert("SAP GUI Simulation: " + msg);
+            };
+
+            // Grid Logic
+            vm.selectRow = function(index) {
+                vm.items.forEach(i => i.selected = false);
+                vm.items[index].selected = true;
+            };
+
+            vm.addItem = function() {
+                var nextPos = (vm.items.length + 1) * 10;
+                vm.items.push({ pos: nextPos, material: '', qty: '', uom: '', desc: '', plant: '1000', value: '0.00', selected: false });
+            };
+
+            vm.deleteItem = function() {
+                vm.items = vm.items.filter(i => !i.selected);
+            };
+
+            // F4 Help Mock
+            vm.showF4 = false;
+            vm.f4Title = "";
+            
+            vm.openF4 = function(fieldTitle) {
+                vm.f4Title = fieldTitle;
+                vm.showF4 = true;
+            };
+            
+            vm.closeF4 = function() {
+                vm.showF4 = false;
+            };
+            
+            vm.selectF4 = function(code, name) {
+                if(vm.f4Title === 'Sold-To Party') {
+                    vm.soldTo = code;
+                    vm.soldToName = name;
+                } else if(vm.f4Title === 'Order Type') {
+                    vm.orderType = code;
+                }
+                vm.showF4 = false;
+            };
+        });
+    </script>
+</body>
+</html>
+
+
