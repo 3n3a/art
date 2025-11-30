@@ -7,3 +7,4 @@ static, generative, .... it's all art
 * [artsy shapes in motion](random_shapes_motion/)
 * [hacker art](hacker_art/)
 * [virtual pop it 🫧](virtual_pop_it/)
+* [SAP GUI Simulator (6174 / Sales Order)](sap_gui_abap/)
