@@ -1,0 +1,593 @@
+/* --- CORE VARIABLES & RESET --- */
+:root {
+  --sap-blue-header-top: #dcebf9;
+  --sap-blue-header-bottom: #b0cce9;
+  --sap-bg-color: #dee4ea;
+  --sap-text-color: #000000;
+  --sap-input-bg: #ffffff;
+  --sap-input-required: #fffdd0;
+  --sap-border-light: #ffffff;
+  --sap-border-dark: #8ba5c0;
+  --sap-toolbar-bg: #d3e1f1;
+  --sap-font-family: "Tahoma", "Arial", sans-serif;
+  --sap-btn-gradient-top: #f3f5f9;
+  --sap-btn-gradient-bottom: #cdd8e4;
+  --sap-list-bg: #ffffff;
+  --sap-list-header: #c3d5fd;
+  --sap-list-col-header: #d3dcef;
+  --sap-list-zebra-odd: #f0f4f8;
+  --sap-list-zebra-even: #ffffff;
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--sap-font-family);
+  font-size: 11px;
+  background-color: var(--sap-bg-color);
+  color: var(--sap-text-color);
+  overflow: hidden;
+}
+
+/* --- LAYOUT --- */
+.sap-window {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  border: 1px solid #444;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: var(--sap-bg-color);
+}
+
+/* --- MENU BAR --- */
+.menu-bar {
+  background: linear-gradient(
+    to bottom,
+    var(--sap-blue-header-top),
+    var(--sap-blue-header-bottom)
+  );
+  padding: 2px 5px;
+  border-bottom: 1px solid var(--sap-border-dark);
+  display: flex;
+  gap: 15px;
+  font-size: 11px;
+  user-select: none;
+  position: relative;
+}
+.menu-item {
+  cursor: pointer;
+  padding: 2px 5px;
+  position: relative;
+}
+.menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 2px;
+}
+.menu-item.open {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #f0f0f0;
+  border: 1px solid #888;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+  min-width: 200px;
+  z-index: 1000;
+  font-size: 11px;
+}
+.dropdown-item {
+  padding: 4px 25px 4px 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #d0d0d0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dropdown-item:hover {
+  background: linear-gradient(to bottom, #fff5e8, #ffe3c4);
+}
+.dropdown-item.disabled {
+  color: #999;
+  cursor: default;
+}
+.dropdown-item.disabled:hover {
+  background: transparent;
+}
+.dropdown-separator {
+  height: 1px;
+  background: #999;
+  margin: 2px 0;
+}
+.dropdown-shortcut {
+  font-size: 10px;
+  color: #666;
+  margin-left: 20px;
+}
+
+/* --- SYSTEM TOOLBAR --- */
+.system-toolbar {
+  background-color: var(--sap-toolbar-bg);
+  border-top: 1px solid var(--sap-border-light);
+  border-bottom: 1px solid var(--sap-border-dark);
+  padding: 4px 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 2px 4px;
+  cursor: pointer;
+  color: #444;
+  font-size: 14px;
+  border-radius: 2px;
+}
+.icon-btn:hover {
+  border: 1px solid #7e9bb5;
+  background: linear-gradient(to bottom, #fff, #dcebf9);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.icon-btn:active {
+  border: 1px solid #5d7a96;
+  background: #cbdcf0;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+.icon-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.icon-btn:disabled:hover {
+  border: 1px solid transparent;
+  background: transparent;
+  box-shadow: none;
+}
+.separator {
+  width: 1px;
+  height: 20px;
+  background-color: #a0b0c0;
+  border-right: 1px solid #fff;
+  margin: 0 4px;
+}
+
+/* Command Field (T-Code) */
+.command-field-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #7f9db9;
+  background: white;
+  height: 20px;
+  width: 180px;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+.command-field-container input {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  padding-left: 24px;
+  font-size: 11px;
+  font-family: inherit;
+}
+.command-field-icon {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  font-size: 10px;
+  color: #666;
+  cursor: pointer;
+}
+.command-trigger {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  font-size: 10px;
+  color: #666;
+  cursor: pointer;
+}
+
+/* --- TITLE BAR --- */
+.title-bar {
+  background: linear-gradient(to right, #dae7f6, #b8cfe6);
+  padding: 4px 10px;
+  font-weight: bold;
+  color: #333;
+  border-top: 1px solid var(--sap-border-light);
+  border-bottom: 1px solid var(--sap-border-dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* --- APPLICATION TOOLBAR --- */
+.app-toolbar {
+  background-color: #e5edf7;
+  padding: 3px 5px;
+  border-bottom: 1px solid var(--sap-border-dark);
+  display: flex;
+  gap: 5px;
+  min-height: 22px;
+}
+.sap-btn {
+  border: 1px solid #8e9bb3;
+  background: linear-gradient(
+    to bottom,
+    var(--sap-btn-gradient-top),
+    var(--sap-btn-gradient-bottom)
+  );
+  padding: 2px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 2px;
+  color: #000;
+}
+.sap-btn:hover {
+  border-color: #e68b2c;
+  background: linear-gradient(to bottom, #fff5e8, #ffe3c4);
+}
+.execute-btn {
+  color: #2b7d2b; /* Green tint for execute */
+}
+
+/* --- MAIN CONTENT AREA --- */
+.main-content {
+  flex: 1;
+  padding: 10px;
+  overflow: auto;
+  background-color: var(--sap-bg-color);
+  position: relative;
+}
+
+/* TABS */
+.sap-tabs {
+  margin-top: 10px;
+}
+.tab-headers {
+  display: flex;
+  border-bottom: 1px solid #8ba5c0;
+  padding-left: 5px;
+}
+.tab-header {
+  padding: 4px 12px;
+  margin-right: -1px;
+  border: 1px solid #8ba5c0;
+  border-bottom: none;
+  background: linear-gradient(to bottom, #eef3fa, #dcebf9);
+  cursor: pointer;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  color: #444;
+}
+.tab-header.active {
+  background: var(--sap-bg-color);
+  font-weight: bold;
+  border-bottom: 1px solid var(--sap-bg-color);
+  position: relative;
+  top: 1px;
+  color: #000;
+}
+.tab-content {
+  border: 1px solid #8ba5c0;
+  border-top: none;
+  padding: 15px;
+  background-color: var(--sap-bg-color);
+  min-height: 200px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* FORMS & GRIDS */
+.sap-form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.sap-label {
+  width: 120px;
+  color: #444;
+}
+.sap-input {
+  border: 1px solid #7f9db9;
+  padding: 2px 4px;
+  font-size: 11px;
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+  width: 180px;
+  outline: none;
+}
+.sap-input:focus {
+  background-color: #fff;
+  border-color: #d15600;
+}
+.sap-input.required {
+  background-color: var(--sap-input-required);
+}
+.sap-input.search-help {
+  width: 160px;
+  margin-right: 0;
+  border-right: none;
+}
+.search-btn {
+  width: 20px;
+  height: 21px;
+  border: 1px solid #7f9db9;
+  border-left: none;
+  background: #eef3fa;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #555;
+}
+.search-btn:hover {
+  background: #dcebf9;
+}
+
+/* CLASSIC LIST DISPLAY STYLES (ABAP REPORT) */
+.sap-list-container {
+  font-family: "Courier New", Courier, monospace;
+  background-color: white;
+  border: 1px solid #8ba5c0;
+  padding: 10px;
+  min-height: 300px;
+  overflow: auto;
+  white-space: pre;
+}
+.list-header {
+  background-color: var(--sap-list-header);
+  font-weight: bold;
+  padding: 2px;
+  border-bottom: 1px solid #ccc;
+}
+.list-row {
+  padding: 1px 2px;
+}
+.list-row.odd {
+  background-color: var(--sap-list-zebra-odd);
+}
+.list-row.even {
+  background-color: var(--sap-list-zebra-even);
+}
+.list-int {
+  color: #0000ff;
+} /* Integer color */
+.list-res {
+  color: #cc0000;
+} /* Result color */
+
+.selection-screen-box {
+  border: 1px solid #aaa;
+  padding: 10px;
+  background: #f0f0f0;
+  margin-bottom: 15px;
+}
+
+/* TABLE CONTROL */
+.sap-table-wrapper {
+  border: 1px solid #999;
+  background: white;
+  margin-top: 10px;
+}
+.sap-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+.sap-table th {
+  background: linear-gradient(to bottom, #eee, #d0d0d0);
+  border: 1px solid #999;
+  padding: 4px;
+  text-align: left;
+  font-weight: normal;
+  color: #333;
+}
+.sap-table td {
+  border: 1px solid #ccc;
+  padding: 0;
+}
+.sap-table input {
+  width: 100%;
+  border: none;
+  padding: 3px;
+  box-sizing: border-box;
+  background: transparent;
+}
+.sap-table tr:nth-child(even) input {
+  background-color: #f2f9ff;
+}
+.sap-table input:focus {
+  background-color: #fff;
+  box-shadow: inset 0 0 0 1px #d15600;
+}
+
+/* --- STATUS BAR --- */
+.status-bar {
+  background-color: #dee4ea;
+  border-top: 1px solid #999;
+  padding: 2px 5px;
+  font-size: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 24px;
+}
+.status-msg {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #333;
+  flex: 1;
+}
+.status-info {
+  display: flex;
+  border-left: 1px solid #999;
+  border-right: 1px solid #fff;
+}
+.status-field {
+  padding: 0 10px;
+  border-right: 1px solid #999;
+  border-left: 1px solid #fff;
+  color: #555;
+  cursor: pointer;
+  position: relative;
+}
+.status-field:hover {
+  background-color: #e5edf7;
+}
+
+.hidden {
+  display: none;
+}
+.text-success {
+  color: #007833;
+}
+.text-error {
+  color: #cc0000;
+}
+
+/* Modal Base Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 99;
+}
+
+/* F4 Help Modal */
+.f4-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background: #dee4ea;
+  border: 1px solid #000;
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+.modal-header {
+  background: linear-gradient(to right, #002e6e, #5c86b8);
+  color: white;
+  padding: 5px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+.modal-body {
+  padding: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #999;
+  margin: 5px;
+}
+.modal-footer {
+  padding: 5px 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+.f4-item {
+  padding: 3px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+.f4-item:hover {
+  background-color: #ffe3c4;
+}
+
+/* Generic Dialog Modal */
+.dialog-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-width: 90%;
+  max-height: 80%;
+  background: #dee4ea;
+  border: 1px solid #000;
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+.dialog-modal.large {
+  width: 800px;
+}
+
+/* Conditions Table */
+.conditions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  margin-top: 10px;
+}
+.conditions-table th {
+  background: linear-gradient(to bottom, #d3dcef, #c0cfe0);
+  border: 1px solid #999;
+  padding: 4px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 11px;
+}
+.conditions-table td {
+  border: 1px solid #ccc;
+  padding: 4px;
+  background: white;
+}
+.conditions-table tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+
+/* Incompletion Log Styles */
+.incompletion-item {
+  padding: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 5px;
+  background: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.incompletion-icon {
+  color: #cc0000;
+  font-size: 16px;
+}
+.incompletion-icon.warning {
+  color: #ff9900;
+}
+.incompletion-icon.info {
+  color: #0066cc;
+}
+
+/* Field Group Box */
+.field-group {
+  border: 1px solid #999;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #f8f8f8;
+}
+.field-group-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* Checkbox SAP Style */
+.sap-checkbox {
+  margin-right: 5px;
+}

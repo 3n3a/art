@@ -3,445 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAP GUI - Signature Theme</title>
+    <title>SAP GUI Web Simulator - Classic SAP Signature Theme</title>
+    <meta name="description" content="Experience a web-based SAP GUI simulator with the classic Signature Theme. Featuring VA01 Sales Order Creation, ZKAP Kaprekar Calculator, and authentic SAP transaction workflows for demos, training, and prototyping.">
+    <meta name="keywords" content="SAP GUI, SAP Simulator, Signature Theme, VA01, Create Sales Order, Sales and Distribution, ZKAP, Kaprekar Calculator, ABAP Report, SAP Demo, SAP Web App, SAP Training, SAP Interface, SAP UI, SAP Classic Theme, SAP UX, SAP Transaction Codes, SAP SD Module, SAP S/4HANA">
+    <meta name="robots" content="index, follow">
     <!-- AngularJS 1.8.2 -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <style>
-        /* --- CORE VARIABLES & RESET --- */
-        :root {
-            --sap-blue-header-top: #Dcebf9;
-            --sap-blue-header-bottom: #b0cce9;
-            --sap-bg-color: #DEE4EA;
-            --sap-text-color: #000000;
-            --sap-input-bg: #FFFFFF;
-            --sap-input-required: #FFFDD0;
-            --sap-border-light: #ffffff;
-            --sap-border-dark: #8ba5c0;
-            --sap-toolbar-bg: #d3e1f1;
-            --sap-font-family: 'Tahoma', 'Arial', sans-serif;
-            --sap-btn-gradient-top: #f3f5f9;
-            --sap-btn-gradient-bottom: #cdd8e4;
-            --sap-list-bg: #FFFFFF;
-            --sap-list-header: #C3D5FD;
-            --sap-list-col-header: #D3DCEF;
-            --sap-list-zebra-odd: #F0F4F8;
-            --sap-list-zebra-even: #FFFFFF;
-        }
-
-        body, html {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: var(--sap-font-family);
-            font-size: 11px;
-            background-color: var(--sap-bg-color);
-            color: var(--sap-text-color);
-            overflow: hidden;
-        }
-
-        /* --- LAYOUT --- */
-        .sap-window {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            border: 1px solid #444;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
-            max-width: 100%;
-            margin: 0 auto;
-            background-color: var(--sap-bg-color);
-        }
-
-        /* --- MENU BAR --- */
-        .menu-bar {
-            background: linear-gradient(to bottom, var(--sap-blue-header-top), var(--sap-blue-header-bottom));
-            padding: 2px 5px;
-            border-bottom: 1px solid var(--sap-border-dark);
-            display: flex;
-            gap: 15px;
-            font-size: 11px;
-            user-select: none;
-        }
-        .menu-item {
-            cursor: pointer;
-            padding: 2px 5px;
-        }
-        .menu-item:hover {
-            background-color: rgba(255,255,255,0.4);
-            border-radius: 2px;
-        }
-
-        /* --- SYSTEM TOOLBAR --- */
-        .system-toolbar {
-            background-color: var(--sap-toolbar-bg);
-            border-top: 1px solid var(--sap-border-light);
-            border-bottom: 1px solid var(--sap-border-dark);
-            padding: 4px 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .icon-btn {
-            border: 1px solid transparent;
-            background: transparent;
-            padding: 2px 4px;
-            cursor: pointer;
-            color: #444;
-            font-size: 14px;
-            border-radius: 2px;
-        }
-        .icon-btn:hover {
-            border: 1px solid #7e9bb5;
-            background: linear-gradient(to bottom, #fff, #dcebf9);
-            box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
-        }
-        .icon-btn:active {
-            border: 1px solid #5d7a96;
-            background: #cbdcf0;
-            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
-        }
-        .icon-btn:disabled {
-            opacity: 0.5;
-            cursor: default;
-        }
-        .separator {
-            width: 1px;
-            height: 20px;
-            background-color: #a0b0c0;
-            border-right: 1px solid #fff;
-            margin: 0 4px;
-        }
-
-        /* Command Field (T-Code) */
-        .command-field-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            border: 1px solid #7f9db9;
-            background: white;
-            height: 20px;
-            width: 180px;
-            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
-        }
-        .command-field-container input {
-            border: none;
-            outline: none;
-            width: 100%;
-            height: 100%;
-            padding-left: 24px;
-            font-size: 11px;
-            font-family: inherit;
-        }
-        .command-field-icon {
-            position: absolute;
-            left: 2px;
-            top: 2px;
-            font-size: 10px;
-            color: #666;
-            cursor: pointer;
-        }
-        .command-trigger {
-            position: absolute;
-            right: 2px;
-            top: 2px;
-            font-size: 10px;
-            color: #666;
-            cursor: pointer;
-        }
-
-        /* --- TITLE BAR --- */
-        .title-bar {
-            background: linear-gradient(to right, #dae7f6, #b8cfe6);
-            padding: 4px 10px;
-            font-weight: bold;
-            color: #333;
-            border-top: 1px solid var(--sap-border-light);
-            border-bottom: 1px solid var(--sap-border-dark);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* --- APPLICATION TOOLBAR --- */
-        .app-toolbar {
-            background-color: #e5edf7;
-            padding: 3px 5px;
-            border-bottom: 1px solid var(--sap-border-dark);
-            display: flex;
-            gap: 5px;
-            min-height: 22px;
-        }
-        .sap-btn {
-            border: 1px solid #8e9bb3;
-            background: linear-gradient(to bottom, var(--sap-btn-gradient-top), var(--sap-btn-gradient-bottom));
-            padding: 2px 10px;
-            font-size: 11px;
-            cursor: pointer;
-            border-radius: 2px;
-            color: #000;
-        }
-        .sap-btn:hover {
-            border-color: #e68b2c;
-            background: linear-gradient(to bottom, #fff5e8, #ffe3c4);
-        }
-        .execute-btn {
-            color: #2b7d2b; /* Green tint for execute */
-        }
-
-        /* --- MAIN CONTENT AREA --- */
-        .main-content {
-            flex: 1;
-            padding: 10px;
-            overflow: auto;
-            background-color: var(--sap-bg-color);
-            position: relative;
-        }
-
-        /* TABS */
-        .sap-tabs {
-            margin-top: 10px;
-        }
-        .tab-headers {
-            display: flex;
-            border-bottom: 1px solid #8ba5c0;
-            padding-left: 5px;
-        }
-        .tab-header {
-            padding: 4px 12px;
-            margin-right: -1px;
-            border: 1px solid #8ba5c0;
-            border-bottom: none;
-            background: linear-gradient(to bottom, #eef3fa, #dcebf9);
-            cursor: pointer;
-            border-top-left-radius: 3px;
-            border-top-right-radius: 3px;
-            color: #444;
-        }
-        .tab-header.active {
-            background: var(--sap-bg-color);
-            font-weight: bold;
-            border-bottom: 1px solid var(--sap-bg-color);
-            position: relative;
-            top: 1px;
-            color: #000;
-        }
-        .tab-content {
-            border: 1px solid #8ba5c0;
-            border-top: none;
-            padding: 15px;
-            background-color: var(--sap-bg-color);
-            min-height: 200px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
-        }
-
-        /* FORMS & GRIDS */
-        .sap-form-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        .sap-label {
-            width: 120px;
-            color: #444;
-        }
-        .sap-input {
-            border: 1px solid #7f9db9;
-            padding: 2px 4px;
-            font-size: 11px;
-            box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
-            width: 180px;
-            outline: none;
-        }
-        .sap-input:focus {
-            background-color: #fff;
-            border-color: #d15600;
-        }
-        .sap-input.required {
-            background-color: var(--sap-input-required);
-        }
-        .sap-input.search-help {
-            width: 160px;
-            margin-right: 0;
-            border-right: none;
-        }
-        .search-btn {
-            width: 20px;
-            height: 21px;
-            border: 1px solid #7f9db9;
-            border-left: none;
-            background: #eef3fa;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: #555;
-        }
-        .search-btn:hover {
-            background: #dcebf9;
-        }
-
-        /* CLASSIC LIST DISPLAY STYLES (ABAP REPORT) */
-        .sap-list-container {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: white;
-            border: 1px solid #8ba5c0;
-            padding: 10px;
-            min-height: 300px;
-            overflow: auto;
-            white-space: pre;
-        }
-        .list-header {
-            background-color: var(--sap-list-header);
-            font-weight: bold;
-            padding: 2px;
-            border-bottom: 1px solid #ccc;
-        }
-        .list-row {
-            padding: 1px 2px;
-        }
-        .list-row.odd { background-color: var(--sap-list-zebra-odd); }
-        .list-row.even { background-color: var(--sap-list-zebra-even); }
-        .list-int { color: #0000FF; } /* Integer color */
-        .list-res { color: #CC0000; } /* Result color */
-
-        .selection-screen-box {
-            border: 1px solid #aaa;
-            padding: 10px;
-            background: #f0f0f0;
-            margin-bottom: 15px;
-        }
-
-        /* TABLE CONTROL */
-        .sap-table-wrapper {
-            border: 1px solid #999;
-            background: white;
-            margin-top: 10px;
-        }
-        .sap-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 11px;
-        }
-        .sap-table th {
-            background: linear-gradient(to bottom, #eee, #d0d0d0);
-            border: 1px solid #999;
-            padding: 4px;
-            text-align: left;
-            font-weight: normal;
-            color: #333;
-        }
-        .sap-table td {
-            border: 1px solid #ccc;
-            padding: 0;
-        }
-        .sap-table input {
-            width: 100%;
-            border: none;
-            padding: 3px;
-            box-sizing: border-box;
-            background: transparent;
-        }
-        .sap-table tr:nth-child(even) input {
-            background-color: #f2f9ff;
-        }
-        .sap-table input:focus {
-            background-color: #fff;
-            box-shadow: inset 0 0 0 1px #d15600;
-        }
-
-        /* --- STATUS BAR --- */
-        .status-bar {
-            background-color: #DEE4EA;
-            border-top: 1px solid #999;
-            padding: 2px 5px;
-            font-size: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 24px;
-        }
-        .status-msg {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: #333;
-            flex: 1;
-        }
-        .status-info {
-            display: flex;
-            border-left: 1px solid #999;
-            border-right: 1px solid #fff;
-        }
-        .status-field {
-            padding: 0 10px;
-            border-right: 1px solid #999;
-            border-left: 1px solid #fff;
-            color: #555;
-            cursor: pointer;
-            position: relative;
-        }
-        .status-field:hover {
-            background-color: #e5edf7;
-        }
-        
-        .hidden { display: none; }
-        .text-success { color: #007833; }
-        .text-error { color: #cc0000; }
-        
-        /* Modal for F4 Help (Mock) */
-        .f4-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            background: #DEE4EA;
-            border: 1px solid #000;
-            box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
-            z-index: 100;
-        }
-        .modal-header {
-            background: linear-gradient(to right, #002e6e, #5c86b8);
-            color: white;
-            padding: 5px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-        }
-        .modal-body {
-            padding: 10px;
-            height: 200px;
-            overflow-y: auto;
-            background: white;
-            border: 1px solid #999;
-            margin: 5px;
-        }
-        .f4-item {
-            padding: 3px;
-            cursor: pointer;
-            border-bottom: 1px solid #eee;
-        }
-        .f4-item:hover {
-            background-color: #ffe3c4;
-        }
-        
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body ng-controller="MainController as ctrl">
 
     <div class="sap-window">
         <!-- 1. MENU BAR -->
         <div class="menu-bar">
-            <div class="menu-item" ng-click="ctrl.showMsg('Menu clicked')">Menu</div>
-            <div class="menu-item" ng-click="ctrl.showMsg('Edit clicked')">Edit</div>
-            <div class="menu-item" ng-click="ctrl.showMsg('Favorites clicked')">Favorites</div>
-            <div class="menu-item" ng-click="ctrl.showMsg('Extras clicked')">Extras</div>
-            <div class="menu-item" ng-click="ctrl.showMsg('System clicked')">System</div>
-            <div class="menu-item" ng-click="ctrl.showMsg('Help clicked')">Help</div>
+            <div class="menu-item" ng-class="{'open': ctrl.openMenu === 'menu'}" ng-click="ctrl.toggleMenu('menu', $event)">
+                Menu
+                <div class="dropdown-menu" ng-if="ctrl.openMenu === 'menu'" ng-click="$event.stopPropagation()">
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('create_session')">
+                        <span>Create Session</span>
+                        <span class="dropdown-shortcut"></span>
+                    </div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('delete_session')">
+                        <span>Delete Session</span>
+                    </div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('user_profile')">
+                        <span>User Profile</span>
+                    </div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('settings')">
+                        <span>Settings...</span>
+                    </div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" ng-click="ctrl.exit()">
+                        <span>Log Off</span>
+                        <span class="dropdown-shortcut">Shift+F3</span>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-item" ng-class="{'open': ctrl.openMenu === 'edit'}" ng-click="ctrl.toggleMenu('edit', $event)">
+                Edit
+                <div class="dropdown-menu" ng-if="ctrl.openMenu === 'edit'" ng-click="$event.stopPropagation()">
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('cut')">
+                        <span>Cut</span>
+                        <span class="dropdown-shortcut">Ctrl+X</span>
+                    </div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('copy')">
+                        <span>Copy</span>
+                        <span class="dropdown-shortcut">Ctrl+C</span>
+                    </div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('paste')">
+                        <span>Paste</span>
+                        <span class="dropdown-shortcut">Ctrl+V</span>
+                    </div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('find')">
+                        <span>Find...</span>
+                        <span class="dropdown-shortcut">Ctrl+F</span>
+                    </div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('find_next')">
+                        <span>Find Next</span>
+                        <span class="dropdown-shortcut">Ctrl+G</span>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-item" ng-class="{'open': ctrl.openMenu === 'favorites'}" ng-click="ctrl.toggleMenu('favorites', $event)">
+                Favorites
+                <div class="dropdown-menu" ng-if="ctrl.openMenu === 'favorites'" ng-click="$event.stopPropagation()">
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('add_favorite')">
+                        <span>Add to Favorites</span>
+                    </div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('organize_favorites')">
+                        <span>Organize Favorites...</span>
+                    </div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" ng-click="ctrl.navigateToTransaction('VA01')">
+                        <span><i class="fas fa-file-invoice"></i> VA01 - Create Sales Order</span>
+                    </div>
+                    <div class="dropdown-item" ng-click="ctrl.navigateToTransaction('ZKAP')">
+                        <span><i class="fas fa-calculator"></i> ZKAP - Kaprekar Routine</span>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-item" ng-class="{'open': ctrl.openMenu === 'extras'}" ng-click="ctrl.toggleMenu('extras', $event)">
+                Extras
+                <div class="dropdown-menu" ng-if="ctrl.openMenu === 'extras'" ng-click="$event.stopPropagation()">
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('history')">
+                        <span>Personal History</span>
+                    </div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('clipboard')">
+                        <span>Clipboard</span>
+                    </div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('options')">
+                        <span>Options...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-item" ng-class="{'open': ctrl.openMenu === 'system'}" ng-click="ctrl.toggleMenu('system', $event)">
+                System
+                <div class="dropdown-menu" ng-if="ctrl.openMenu === 'system'" ng-click="$event.stopPropagation()">
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('user_profile')">
+                        <span>User Profile</span>
+                    </div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('status')">
+                        <span>Status...</span>
+                    </div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('services')">
+                        <span>Services</span>
+                    </div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('utilities')">
+                        <span>Utilities</span>
+                    </div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" ng-click="ctrl.clearStorage(); ctrl.openMenu = null;">
+                        <span>Clear Local Storage</span>
+                    </div>
+                    <div class="dropdown-item" ng-click="ctrl.menuAction('list_session')">
+                        <span>List Session</span>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-item" ng-class="{'open': ctrl.openMenu === 'help'}" ng-click="ctrl.toggleMenu('help', $event)">
+                Help
+                <div class="dropdown-menu" ng-if="ctrl.openMenu === 'help'" ng-click="$event.stopPropagation()">
+                    <div class="dropdown-item" ng-click="ctrl.showApplicationHelp()">
+                        <span>Application Help</span>
+                        <span class="dropdown-shortcut">F1</span>
+                    </div>
+                    <div class="dropdown-item" ng-click="ctrl.showSAPLibrary()">
+                        <span>SAP Library</span>
+                    </div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" ng-click="ctrl.showGlossary()">
+                        <span>Glossary</span>
+                    </div>
+                    <div class="dropdown-item" ng-click="ctrl.showReleaseNotes()">
+                        <span>Release Notes</span>
+                    </div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" ng-click="ctrl.showAbout()">
+                        <span>About SAP GUI</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- 2. STANDARD TOOLBAR -->
@@ -480,9 +188,9 @@
 
         <!-- 4. APPLICATION TOOLBAR (Dynamic based on screen) -->
         <div class="app-toolbar" ng-if="ctrl.currentScreen === 'VA01'">
-            <button class="sap-btn" ng-click="ctrl.appAction('Display Header')">Header Data</button>
-            <button class="sap-btn" ng-click="ctrl.appAction('Item Conditions')">Conditions</button>
-            <button class="sap-btn" ng-click="ctrl.appAction('Incompletion Log')">Incompletion Log</button>
+            <button class="sap-btn" ng-click="ctrl.showHeaderData()">Header Data</button>
+            <button class="sap-btn" ng-click="ctrl.showConditions()">Conditions</button>
+            <button class="sap-btn" ng-click="ctrl.showIncompletionLog()">Incompletion Log</button>
             <div class="separator"></div>
             <button class="sap-btn" ng-click="ctrl.addItem()">Add Line</button>
             <button class="sap-btn" ng-click="ctrl.deleteItem()">Delete Line</button>
@@ -491,7 +199,7 @@
         <!-- App Toolbar for Report (usually empty or specific functions) -->
         <div class="app-toolbar" ng-if="ctrl.currentScreen === 'ZKAP'">
             <button class="sap-btn" ng-click="ctrl.resetKaprekar()">New Calculation</button>
-            <button class="sap-btn" ng-click="ctrl.appAction('Documentation')">Documentation</button>
+            <button class="sap-btn" ng-click="ctrl.showDocumentation()">Documentation</button>
         </div>
 
         <!-- 5. MAIN CONTENT -->
@@ -504,27 +212,27 @@
                     <div class="sap-form-row">
                         <div class="sap-label">Order Type</div>
                         <div style="display:flex;">
-                            <input type="text" class="sap-input required search-help" ng-model="ctrl.orderType" placeholder="OR">
+                            <input type="text" class="sap-input required search-help" ng-model="ctrl.orderData.orderType" placeholder="OR">
                             <div class="search-btn" ng-click="ctrl.openF4('Order Type')"><i class="fas fa-copy"></i></div>
                         </div>
                         <div class="sap-label" style="margin-left: 20px; width: 80px;">Sales Org.</div>
-                        <input type="text" class="sap-input required" value="1000" style="width: 60px;">
-                        <input type="text" class="sap-input" value="10" style="width: 40px; margin-left: 5px;">
-                        <input type="text" class="sap-input" value="00" style="width: 40px; margin-left: 5px;">
+                        <input type="text" class="sap-input required" ng-model="ctrl.orderData.salesOrg" style="width: 60px;">
+                        <input type="text" class="sap-input" ng-model="ctrl.orderData.distChannel" style="width: 40px; margin-left: 5px;">
+                        <input type="text" class="sap-input" ng-model="ctrl.orderData.division" style="width: 40px; margin-left: 5px;">
                     </div>
                     <div class="sap-form-row">
                         <div class="sap-label">Sold-To Party</div>
                         <div style="display:flex;">
-                            <input type="text" class="sap-input required search-help" ng-model="ctrl.soldTo">
+                            <input type="text" class="sap-input required search-help" ng-model="ctrl.orderData.soldTo">
                             <div class="search-btn" ng-click="ctrl.openF4('Sold-To Party')"><i class="fas fa-copy"></i></div>
                         </div>
-                        <span style="margin-left: 10px; color: #666;">{{ctrl.soldToName}}</span>
+                        <span style="margin-left: 10px; color: #666;">{{ctrl.orderData.soldToName}}</span>
                     </div>
                     <div class="sap-form-row">
                         <div class="sap-label">PO Number</div>
-                        <input type="text" class="sap-input" ng-model="ctrl.poNumber">
+                        <input type="text" class="sap-input" ng-model="ctrl.orderData.poNumber">
                         <div class="sap-label" style="margin-left: 20px; width: 80px;">PO Date</div>
-                        <input type="text" class="sap-input" value="30.11.2025" style="width: 100px;">
+                        <input type="text" class="sap-input" ng-model="ctrl.orderData.poDate" style="width: 100px;">
                     </div>
                 </div>
 
@@ -538,6 +246,7 @@
                         <div class="tab-header" ng-class="{'active': ctrl.activeTab === 'shipping'}" ng-click="ctrl.activeTab = 'shipping'">Shipping</div>
                     </div>
 
+                    <!-- SALES TAB -->
                     <div class="tab-content" ng-show="ctrl.activeTab === 'overview'">
                         <!-- ALV Grid Simulation -->
                         <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
@@ -595,8 +304,209 @@
                         </div>
                     </div>
 
-                    <div class="tab-content" ng-show="ctrl.activeTab !== 'overview'">
-                        <p style="color:#666; font-style:italic; padding: 20px;">Tab contents for {{ctrl.activeTab}} would appear here...</p>
+                    <!-- ITEM DETAIL TAB -->
+                    <div class="tab-content" ng-show="ctrl.activeTab === 'item_detail'">
+                        <div class="field-group">
+                            <div class="field-group-title">Item Data</div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Item Category</div>
+                                <input type="text" class="sap-input" value="TAN" readonly style="width: 60px;">
+                                <span style="margin-left: 10px; color: #666;">Standard Item</span>
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Item Type</div>
+                                <input type="text" class="sap-input" value="" style="width: 60px;">
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Higher Level Item</div>
+                                <input type="text" class="sap-input" value="" style="width: 60px;">
+                            </div>
+                        </div>
+                        
+                        <div class="field-group">
+                            <div class="field-group-title">Delivery Data</div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Delivery Date</div>
+                                <input type="text" class="sap-input" value="05.12.2025" style="width: 100px;">
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Delivery Block</div>
+                                <input type="text" class="sap-input" value="" style="width: 60px;">
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Delivery Priority</div>
+                                <input type="text" class="sap-input" value="02" style="width: 60px;">
+                                <span style="margin-left: 10px; color: #666;">Normal</span>
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <div class="field-group-title">Weights and Volumes</div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Gross Weight</div>
+                                <input type="text" class="sap-input" value="0.000" style="width: 100px; text-align: right;">
+                                <span style="margin-left: 5px;">KG</span>
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Net Weight</div>
+                                <input type="text" class="sap-input" value="0.000" style="width: 100px; text-align: right;">
+                                <span style="margin-left: 5px;">KG</span>
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Volume</div>
+                                <input type="text" class="sap-input" value="0.000" style="width: 100px; text-align: right;">
+                                <span style="margin-left: 5px;">M3</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ORDERING PARTY TAB -->
+                    <div class="tab-content" ng-show="ctrl.activeTab === 'ordering'">
+                        <div class="field-group">
+                            <div class="field-group-title">Partner Data</div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Sold-To Party</div>
+                                <input type="text" class="sap-input" ng-model="ctrl.orderData.soldTo" style="width: 100px;">
+                                <span style="margin-left: 10px; color: #666;">{{ctrl.orderData.soldToName}}</span>
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Ship-To Party</div>
+                                <input type="text" class="sap-input" value="{{ctrl.orderData.soldTo}}" style="width: 100px;">
+                                <span style="margin-left: 10px; color: #666;">{{ctrl.orderData.soldToName}}</span>
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Bill-To Party</div>
+                                <input type="text" class="sap-input" value="{{ctrl.orderData.soldTo}}" style="width: 100px;">
+                                <span style="margin-left: 10px; color: #666;">{{ctrl.orderData.soldToName}}</span>
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Payer</div>
+                                <input type="text" class="sap-input" value="{{ctrl.orderData.soldTo}}" style="width: 100px;">
+                                <span style="margin-left: 10px; color: #666;">{{ctrl.orderData.soldToName}}</span>
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <div class="field-group-title">Contact Person</div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Contact Number</div>
+                                <input type="text" class="sap-input" value="" style="width: 100px;">
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Name</div>
+                                <input type="text" class="sap-input" value="" style="width: 200px;">
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Telephone</div>
+                                <input type="text" class="sap-input" value="" style="width: 150px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROCUREMENT TAB -->
+                    <div class="tab-content" ng-show="ctrl.activeTab === 'procurement'">
+                        <div class="field-group">
+                            <div class="field-group-title">Purchasing Data</div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Purchasing Org.</div>
+                                <input type="text" class="sap-input" value="1000" style="width: 80px;">
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Purchasing Group</div>
+                                <input type="text" class="sap-input" value="001" style="width: 80px;">
+                                <span style="margin-left: 10px; color: #666;">Central Purchasing</span>
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Material Group</div>
+                                <input type="text" class="sap-input" value="TECH" style="width: 100px;">
+                                <span style="margin-left: 10px; color: #666;">Technology</span>
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <div class="field-group-title">Vendor Data</div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Vendor</div>
+                                <input type="text" class="sap-input" value="" style="width: 100px;">
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Manufacturer</div>
+                                <input type="text" class="sap-input" value="" style="width: 100px;">
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Manufacturer Part No.</div>
+                                <input type="text" class="sap-input" value="" style="width: 150px;">
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <div class="field-group-title">Order Acknowledgment</div>
+                            <div class="sap-form-row">
+                                <input type="checkbox" class="sap-checkbox">
+                                <span>Order Acknowledgment Required</span>
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Latest Ack. Date</div>
+                                <input type="text" class="sap-input" value="" style="width: 100px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SHIPPING TAB -->
+                    <div class="tab-content" ng-show="ctrl.activeTab === 'shipping'">
+                        <div class="field-group">
+                            <div class="field-group-title">Shipping Data</div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Shipping Point</div>
+                                <input type="text" class="sap-input" value="1000" style="width: 80px;">
+                                <span style="margin-left: 10px; color: #666;">Plant 1000</span>
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Shipping Condition</div>
+                                <input type="text" class="sap-input" value="01" style="width: 60px;">
+                                <span style="margin-left: 10px; color: #666;">Standard</span>
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Route</div>
+                                <input type="text" class="sap-input" value="" style="width: 100px;">
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Delivering Plant</div>
+                                <input type="text" class="sap-input" value="1000" style="width: 80px;">
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <div class="field-group-title">Delivery Dates</div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Delivery Date</div>
+                                <input type="text" class="sap-input" value="05.12.2025" style="width: 100px;">
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Loading Date</div>
+                                <input type="text" class="sap-input" value="04.12.2025" style="width: 100px;">
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Transport Planning Date</div>
+                                <input type="text" class="sap-input" value="03.12.2025" style="width: 100px;">
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <div class="field-group-title">Packing</div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Pack Material</div>
+                                <input type="text" class="sap-input" value="" style="width: 100px;">
+                            </div>
+                            <div class="sap-form-row">
+                                <div class="sap-label">Number of Packages</div>
+                                <input type="text" class="sap-input" value="0" style="width: 80px; text-align: right;">
+                            </div>
+                            <div class="sap-form-row">
+                                <input type="checkbox" class="sap-checkbox">
+                                <span>Complete Delivery Required</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -650,8 +560,13 @@
             </div>
         </div>
 
+        <!-- MODALS -->
+
+        <!-- Modal Overlay -->
+        <div class="modal-overlay" ng-if="ctrl.showF4 || ctrl.showModal" ng-click="ctrl.closeAllModals()"></div>
+
         <!-- F4 HELP MODAL -->
-        <div class="f4-modal" ng-if="ctrl.showF4">
+        <div class="f4-modal" ng-if="ctrl.showF4" ng-click="$event.stopPropagation()">
             <div class="modal-header">
                 <span>Restrict Value Range: {{ctrl.f4Title}}</span>
                 <i class="fas fa-times" style="cursor:pointer;" ng-click="ctrl.closeF4()"></i>
@@ -665,271 +580,725 @@
             </div>
         </div>
 
+        <!-- DOCUMENTATION MODAL -->
+        <div class="dialog-modal" ng-if="ctrl.showModal === 'documentation'" ng-click="$event.stopPropagation()">
+            <div class="modal-header">
+                <span>Documentation: ZKAPREKAR_CALC</span>
+                <i class="fas fa-times" style="cursor:pointer;" ng-click="ctrl.closeModal()"></i>
+            </div>
+            <div class="modal-body" style="padding: 15px;">
+                <h3 style="margin-top: 0; color: #002e6e;">Kaprekar's Constant Routine</h3>
+                
+                <div style="margin-bottom: 15px;">
+                    <strong>Purpose:</strong>
+                    <p style="margin: 5px 0;">This program demonstrates the Kaprekar routine for 4-digit numbers, which converges to the constant 6174.</p>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <strong>Algorithm:</strong>
+                    <ol style="margin: 5px 0; padding-left: 20px;">
+                        <li>Take any 4-digit number with at least two different digits</li>
+                        <li>Arrange the digits in descending order</li>
+                        <li>Arrange the digits in ascending order</li>
+                        <li>Subtract the smaller number from the larger</li>
+                        <li>Repeat with the result</li>
+                    </ol>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <strong>Mathematical Background:</strong>
+                    <p style="margin: 5px 0;">
+                        Kaprekar's constant, discovered by Indian mathematician D.R. Kaprekar in 1949, 
+                        is 6174. For most 4-digit numbers, the routine converges to 6174 in at most 7 iterations.
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <strong>Example:</strong>
+                    <div style="background: #f0f0f0; padding: 10px; font-family: 'Courier New', monospace; font-size: 10px;">
+Starting with: 1234<br>
+4321 - 1234 = 3087<br>
+8730 - 0378 = 8352<br>
+8532 - 2358 = 6174<br>
+<br>
+Converged in 3 iterations!
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <strong>Input Parameters:</strong>
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li><strong>Input Number:</strong> A 4-digit number (leading zeros allowed)</li>
+                        <li><strong>Max Iterations:</strong> Maximum iterations before stopping (default: 20)</li>
+                    </ul>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <strong>Output:</strong>
+                    <p style="margin: 5px 0;">
+                        The program displays each iteration showing the descending arrangement, ascending arrangement, 
+                        and their difference until convergence to 6174 is achieved.
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <strong>Special Cases:</strong>
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li>Numbers with all identical digits (e.g., 1111) are not valid</li>
+                        <li>Some numbers may reach 0 (repdigits) and cannot converge</li>
+                        <li>The constant 6174 is a fixed point: 7641 - 1467 = 6174</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 20px; padding: 10px; background: #e6f2ff; border-left: 3px solid #0066cc;">
+                    <strong>Technical Note:</strong>
+                    <p style="margin: 5px 0; font-size: 10px;">
+                        Program: ZKAPREKAR_CALC<br>
+                        Author: Custom Development<br>
+                        Report Type: Executable Report<br>
+                        Transaction Code: ZKAP
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="sap-btn" ng-click="ctrl.closeModal()">Close</button>
+            </div>
+        </div>
+
+        <!-- HEADER DATA MODAL -->
+        <div class="dialog-modal large" ng-if="ctrl.showModal === 'header_data'" ng-click="$event.stopPropagation()">
+            <div class="modal-header">
+                <span>Header Data - Sales Order</span>
+                <i class="fas fa-times" style="cursor:pointer;" ng-click="ctrl.closeModal()"></i>
+            </div>
+            <div class="modal-body" style="padding: 15px;">
+                <div class="field-group">
+                    <div class="field-group-title">Sales Data</div>
+                    <div class="sap-form-row">
+                        <div class="sap-label" style="width: 150px;">Order Reason</div>
+                        <input type="text" class="sap-input" value="" style="width: 80px;">
+                    </div>
+                    <div class="sap-form-row">
+                        <div class="sap-label" style="width: 150px;">Sales Office</div>
+                        <input type="text" class="sap-input" value="" style="width: 80px;">
+                    </div>
+                    <div class="sap-form-row">
+                        <div class="sap-label" style="width: 150px;">Sales Group</div>
+                        <input type="text" class="sap-input" value="" style="width: 80px;">
+                    </div>
+                    <div class="sap-form-row">
+                        <div class="sap-label" style="width: 150px;">Sales District</div>
+                        <input type="text" class="sap-input" value="" style="width: 80px;">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <div class="field-group-title">Order Dates</div>
+                    <div class="sap-form-row">
+                        <div class="sap-label" style="width: 150px;">Document Date</div>
+                        <input type="text" class="sap-input" value="30.11.2025" style="width: 100px;">
+                    </div>
+                    <div class="sap-form-row">
+                        <div class="sap-label" style="width: 150px;">Pricing Date</div>
+                        <input type="text" class="sap-input" value="30.11.2025" style="width: 100px;">
+                    </div>
+                    <div class="sap-form-row">
+                        <div class="sap-label" style="width: 150px;">Requested Delivery Date</div>
+                        <input type="text" class="sap-input" value="05.12.2025" style="width: 100px;">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <div class="field-group-title">Terms of Payment</div>
+                    <div class="sap-form-row">
+                        <div class="sap-label" style="width: 150px;">Payment Terms</div>
+                        <input type="text" class="sap-input" value="0001" style="width: 80px;">
+                        <span style="margin-left: 10px; color: #666;">Net 30 days</span>
+                    </div>
+                    <div class="sap-form-row">
+                        <div class="sap-label" style="width: 150px;">Incoterms</div>
+                        <input type="text" class="sap-input" value="DAP" style="width: 80px;">
+                        <span style="margin-left: 10px; color: #666;">Delivered At Place</span>
+                    </div>
+                    <div class="sap-form-row">
+                        <div class="sap-label" style="width: 150px;">Incoterms Location</div>
+                        <input type="text" class="sap-input" value="" style="width: 200px;">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <div class="field-group-title">Header Notes</div>
+                    <div class="sap-form-row">
+                        <textarea style="width: 100%; height: 80px; font-family: var(--sap-font-family); font-size: 11px; padding: 5px; border: 1px solid #7f9db9;" placeholder="Enter order notes..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="sap-btn" ng-click="ctrl.closeModal()">Close</button>
+            </div>
+        </div>
+
+        <!-- CONDITIONS MODAL -->
+        <div class="dialog-modal large" ng-if="ctrl.showModal === 'conditions'" ng-click="$event.stopPropagation()">
+            <div class="modal-header">
+                <span>Conditions - Sales Order</span>
+                <i class="fas fa-times" style="cursor:pointer;" ng-click="ctrl.closeModal()"></i>
+            </div>
+            <div class="modal-body" style="padding: 15px;">
+                <div style="margin-bottom: 10px;">
+                    <strong>Header Conditions</strong>
+                </div>
+                <table class="conditions-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30px;"></th>
+                            <th>Condition Type</th>
+                            <th>Description</th>
+                            <th style="width: 100px;">Amount</th>
+                            <th style="width: 80px;">Currency</th>
+                            <th style="width: 60px;">Unit</th>
+                            <th style="width: 80px;">Per</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center;">1</td>
+                            <td>PR00</td>
+                            <td>Price</td>
+                            <td style="text-align: right;">500.00</td>
+                            <td>USD</td>
+                            <td>PC</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">2</td>
+                            <td>K007</td>
+                            <td>Discount</td>
+                            <td style="text-align: right;">-25.00</td>
+                            <td>USD</td>
+                            <td>PC</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">3</td>
+                            <td>KF00</td>
+                            <td>Freight</td>
+                            <td style="text-align: right;">75.00</td>
+                            <td>USD</td>
+                            <td></td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">4</td>
+                            <td>MWST</td>
+                            <td>Tax</td>
+                            <td style="text-align: right;">82.50</td>
+                            <td>USD</td>
+                            <td></td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 20px; margin-bottom: 10px;">
+                    <strong>Item Conditions (Item 10)</strong>
+                </div>
+                <table class="conditions-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30px;"></th>
+                            <th>Condition Type</th>
+                            <th>Description</th>
+                            <th style="width: 100px;">Amount</th>
+                            <th style="width: 80px;">Currency</th>
+                            <th style="width: 60px;">Unit</th>
+                            <th style="width: 80px;">Per</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center;">1</td>
+                            <td>PR00</td>
+                            <td>Price</td>
+                            <td style="text-align: right;">500.00</td>
+                            <td>USD</td>
+                            <td>PC</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">2</td>
+                            <td>K007</td>
+                            <td>Volume Discount</td>
+                            <td style="text-align: right;">-25.00</td>
+                            <td>USD</td>
+                            <td>PC</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 20px; padding: 10px; background: #f0f0f0; border: 1px solid #ccc;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <strong>Net Value:</strong>
+                        <span>5,000.00 USD</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                        <strong>Tax:</strong>
+                        <span>82.50 USD</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 12px; font-weight: bold; border-top: 1px solid #999; padding-top: 5px;">
+                        <strong>Total:</strong>
+                        <span>5,082.50 USD</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="sap-btn" ng-click="ctrl.closeModal()">Close</button>
+            </div>
+        </div>
+
+        <!-- INCOMPLETION LOG MODAL -->
+        <div class="dialog-modal" ng-if="ctrl.showModal === 'incompletion_log'" ng-click="$event.stopPropagation()">
+            <div class="modal-header">
+                <span>Incompletion Log - Sales Order</span>
+                <i class="fas fa-times" style="cursor:pointer;" ng-click="ctrl.closeModal()"></i>
+            </div>
+            <div class="modal-body" style="padding: 15px;">
+                <div style="margin-bottom: 10px;">
+                    <strong>Document Incompleteness</strong>
+                </div>
+                
+                <div class="incompletion-item" ng-if="!ctrl.orderData.soldTo">
+                    <i class="fas fa-exclamation-circle incompletion-icon"></i>
+                    <div>
+                        <div><strong>Header:</strong> Sold-To Party missing</div>
+                        <div style="font-size: 10px; color: #666;">Mandatory field - must be filled before saving</div>
+                    </div>
+                </div>
+
+                <div class="incompletion-item">
+                    <i class="fas fa-exclamation-triangle incompletion-icon warning"></i>
+                    <div>
+                        <div><strong>Header:</strong> Purchase Order Number missing</div>
+                        <div style="font-size: 10px; color: #666;">Recommended field - should be filled</div>
+                    </div>
+                </div>
+
+                <div class="incompletion-item">
+                    <i class="fas fa-info-circle incompletion-icon info"></i>
+                    <div>
+                        <div><strong>Item 10:</strong> Material availability not checked</div>
+                        <div style="font-size: 10px; color: #666;">Check ATP (Available-to-Promise)</div>
+                    </div>
+                </div>
+
+                <div ng-if="ctrl.orderData.soldTo && ctrl.orderData.poNumber" style="padding: 20px; text-align: center; color: #007833;">
+                    <i class="fas fa-check-circle" style="font-size: 24px;"></i>
+                    <div style="margin-top: 10px; font-weight: bold;">No incomplete items found</div>
+                    <div style="font-size: 10px; margin-top: 5px;">Document is complete and can be saved</div>
+                </div>
+
+                <div style="margin-top: 20px; padding: 10px; background: #fff3cd; border: 1px solid #ffc107;">
+                    <div style="font-weight: bold; margin-bottom: 5px;">
+                        <i class="fas fa-lightbulb"></i> Note
+                    </div>
+                    <div style="font-size: 10px;">
+                        The incompletion log shows all mandatory and optional fields that are not yet filled.
+                        Fields marked with a red icon must be completed before the document can be saved.
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="sap-btn" ng-click="ctrl.closeModal()">Close</button>
+            </div>
+        </div>
+
+        <!-- APPLICATION HELP MODAL -->
+        <div class="dialog-modal" ng-if="ctrl.showModal === 'application_help'" ng-click="$event.stopPropagation()">
+            <div class="modal-header">
+                <span>Application Help - {{ctrl.screenTitle}}</span>
+                <i class="fas fa-times" style="cursor:pointer;" ng-click="ctrl.closeModal()"></i>
+            </div>
+            <div class="modal-body" style="padding: 15px;">
+                <div ng-if="ctrl.currentScreen === 'VA01'">
+                    <h3 style="margin-top: 0; color: #002e6e;">VA01 - Create Sales Order</h3>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>Purpose:</strong>
+                        <p style="margin: 5px 0;">Use this transaction to create a new sales order in the system. A sales order is a contractual agreement between your organization and a customer for the delivery of goods or services.</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <strong>Procedure:</strong>
+                        <ol style="margin: 5px 0; padding-left: 20px;">
+                            <li>Enter the Order Type (e.g., OR for standard order)</li>
+                            <li>Enter Sales Organization, Distribution Channel, and Division</li>
+                            <li>Enter the Sold-To Party (customer number)</li>
+                            <li>Optional: Enter PO Number and PO Date</li>
+                            <li>Add line items with material numbers and quantities</li>
+                            <li>Review header data, conditions, and shipping information</li>
+                            <li>Save the order (Ctrl+S or Save button)</li>
+                        </ol>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <strong>Navigation:</strong>
+                        <ul style="margin: 5px 0; padding-left: 20px;">
+                            <li><strong>F3</strong> - Back</li>
+                            <li><strong>Shift+F3</strong> - Exit</li>
+                            <li><strong>F12</strong> - Cancel</li>
+                            <li><strong>Ctrl+S</strong> - Save</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <strong>Tabs:</strong>
+                        <ul style="margin: 5px 0; padding-left: 20px;">
+                            <li><strong>Sales:</strong> Overview of all items in the order</li>
+                            <li><strong>Item Detail:</strong> Detailed information for selected item</li>
+                            <li><strong>Ordering Party:</strong> Partner functions and contact information</li>
+                            <li><strong>Procurement:</strong> Purchasing and vendor data</li>
+                            <li><strong>Shipping:</strong> Delivery dates and shipping conditions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div ng-if="ctrl.currentScreen === 'ZKAP'">
+                    <h3 style="margin-top: 0; color: #002e6e;">ZKAP - Kaprekar Constant Calculator</h3>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong>Purpose:</strong>
+                        <p style="margin: 5px 0;">This program demonstrates the Kaprekar routine, which converges to the constant 6174 for most 4-digit numbers.</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <strong>How to Use:</strong>
+                        <ol style="margin: 5px 0; padding-left: 20px;">
+                            <li>Enter a 4-digit number (with at least two different digits)</li>
+                            <li>Press F8 (Execute) or click the Execute button</li>
+                            <li>View the iteration results showing convergence to 6174</li>
+                        </ol>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <strong>Special Keys:</strong>
+                        <ul style="margin: 5px 0; padding-left: 20px;">
+                            <li><strong>F8</strong> - Execute the program</li>
+                            <li><strong>F3</strong> - Back to previous screen</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; padding: 10px; background: #e6f2ff; border-left: 3px solid #0066cc;">
+                    <strong><i class="fas fa-info-circle"></i> Tip:</strong>
+                    <p style="margin: 5px 0; font-size: 10px;">
+                        Press F1 at any time to get context-sensitive help for the current field or screen.
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="sap-btn" ng-click="ctrl.closeModal()">Close</button>
+            </div>
+        </div>
+
+        <!-- SAP LIBRARY MODAL -->
+        <div class="dialog-modal large" ng-if="ctrl.showModal === 'sap_library'" ng-click="$event.stopPropagation()">
+            <div class="modal-header">
+                <span>SAP Library</span>
+                <i class="fas fa-times" style="cursor:pointer;" ng-click="ctrl.closeModal()"></i>
+            </div>
+            <div class="modal-body" style="padding: 15px;">
+                <h3 style="margin-top: 0; color: #002e6e;">SAP S/4HANA Library</h3>
+                
+                <div style="margin-bottom: 20px;">
+                    <strong>Available Documentation Categories:</strong>
+                </div>
+
+                <div class="field-group">
+                    <div class="field-group-title"><i class="fas fa-book"></i> Sales and Distribution (SD)</div>
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li>Sales Order Processing (VA01, VA02, VA03)</li>
+                        <li>Pricing and Conditions</li>
+                        <li>Delivery Processing</li>
+                        <li>Billing and Invoicing</li>
+                        <li>Credit Management</li>
+                    </ul>
+                </div>
+
+                <div class="field-group">
+                    <div class="field-group-title"><i class="fas fa-book"></i> Materials Management (MM)</div>
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li>Master Data Management</li>
+                        <li>Procurement Processing</li>
+                        <li>Inventory Management</li>
+                        <li>Invoice Verification</li>
+                    </ul>
+                </div>
+
+                <div class="field-group">
+                    <div class="field-group-title"><i class="fas fa-book"></i> Financial Accounting (FI)</div>
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li>General Ledger Accounting</li>
+                        <li>Accounts Receivable/Payable</li>
+                        <li>Asset Accounting</li>
+                        <li>Financial Reporting</li>
+                    </ul>
+                </div>
+
+                <div class="field-group">
+                    <div class="field-group-title"><i class="fas fa-book"></i> ABAP Development</div>
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li>ABAP Programming Guide</li>
+                        <li>Report Development</li>
+                        <li>Function Modules and BAPIs</li>
+                        <li>User Exits and Enhancements</li>
+                        <li>Performance Optimization</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 20px; padding: 10px; background: #fff3cd; border: 1px solid #ffc107;">
+                    <strong><i class="fas fa-globe"></i> Online Resources:</strong>
+                    <p style="margin: 5px 0; font-size: 10px;">
+                        For the complete SAP library and latest updates, visit the SAP Help Portal online.
+                        Documentation is available in multiple languages.
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="sap-btn" ng-click="ctrl.closeModal()">Close</button>
+            </div>
+        </div>
+
+        <!-- GLOSSARY MODAL -->
+        <div class="dialog-modal large" ng-if="ctrl.showModal === 'glossary'" ng-click="$event.stopPropagation()">
+            <div class="modal-header">
+                <span>SAP Glossary</span>
+                <i class="fas fa-times" style="cursor:pointer;" ng-click="ctrl.closeModal()"></i>
+            </div>
+            <div class="modal-body" style="padding: 15px;">
+                <h3 style="margin-top: 0; color: #002e6e;">Common SAP Terms</h3>
+                
+                <div style="column-count: 2; column-gap: 20px; font-size: 11px;">
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>ABAP</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Advanced Business Application Programming - SAP's proprietary programming language</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>ATP</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Available-to-Promise - Check if products are available for delivery</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>BAPI</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Business Application Programming Interface - Standard interfaces for business objects</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>Client</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Independent business unit within an SAP system (e.g., 020)</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>Distribution Channel</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Route through which products reach customers</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>Division</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Product grouping for sales and distribution</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>F4 Help</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Search help/value help accessed by pressing F4 or clicking the search icon</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>Incoterms</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">International Commercial Terms defining delivery responsibilities</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>Material</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Products or services that can be procured or sold</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>Plant</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Physical location where materials are produced or stored</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>Sales Order</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Contract between company and customer for delivery of products/services</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>Sales Organization</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Organizational unit responsible for sale and distribution of products</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>Sold-To Party</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Customer who orders the goods or services</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>Ship-To Party</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Customer who receives the goods</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>T-Code</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Transaction Code - Shortcut to access SAP transactions (e.g., VA01)</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px; break-inside: avoid;">
+                        <strong>Table Control</strong>
+                        <p style="margin: 3px 0 10px 0; color: #666;">Grid display for entering multiple line items</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="sap-btn" ng-click="ctrl.closeModal()">Close</button>
+            </div>
+        </div>
+
+        <!-- RELEASE NOTES MODAL -->
+        <div class="dialog-modal" ng-if="ctrl.showModal === 'release_notes'" ng-click="$event.stopPropagation()">
+            <div class="modal-header">
+                <span>Release Notes</span>
+                <i class="fas fa-times" style="cursor:pointer;" ng-click="ctrl.closeModal()"></i>
+            </div>
+            <div class="modal-body" style="padding: 15px;">
+                <h3 style="margin-top: 0; color: #002e6e;">SAP GUI Simulation - Version 1.0</h3>
+                
+                <div style="margin-bottom: 20px;">
+                    <strong>Release Date: November 30, 2025</strong>
+                </div>
+
+                <div class="field-group">
+                    <div class="field-group-title">New Features</div>
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li>VA01 - Sales Order Creation with full tab support</li>
+                        <li>ZKAP - Kaprekar Constant Calculator program</li>
+                        <li>URL parameter support for transaction deep-linking</li>
+                        <li>Authentic menu bar with dropdown functionality</li>
+                        <li>F4 search help for key fields</li>
+                        <li>Header data, conditions, and incompletion log views</li>
+                        <li>Complete help system documentation</li>
+                    </ul>
+                </div>
+
+                <div class="field-group">
+                    <div class="field-group-title">Implemented Transactions</div>
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li><strong>VA01:</strong> Create Sales Order</li>
+                        <li><strong>ZKAP:</strong> Kaprekar Routine Calculator</li>
+                    </ul>
+                </div>
+
+                <div class="field-group">
+                    <div class="field-group-title">Technical Details</div>
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li>Built with AngularJS 1.8.2</li>
+                        <li>Authentic SAP Signature Theme styling</li>
+                        <li>Single-page application architecture</li>
+                        <li>Client-side state management</li>
+                        <li>FontAwesome 6.4.0 icons</li>
+                    </ul>
+                </div>
+
+                <div class="field-group">
+                    <div class="field-group-title">Known Limitations</div>
+                    <ul style="margin: 5px 0; padding-left: 20px;">
+                        <li>No backend connectivity - simulation only</li>
+                        <li>Limited to implemented transactions</li>
+                        <li>Data not persisted across sessions</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 20px; padding: 10px; background: #d4edda; border: 1px solid #28a745;">
+                    <strong><i class="fas fa-check-circle"></i> Status:</strong>
+                    <p style="margin: 5px 0; font-size: 10px;">
+                        This is a demonstration version for educational and training purposes.
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="sap-btn" ng-click="ctrl.closeModal()">Close</button>
+            </div>
+        </div>
+
+        <!-- ABOUT SAP GUI MODAL -->
+        <div class="dialog-modal" ng-if="ctrl.showModal === 'about'" ng-click="$event.stopPropagation()">
+            <div class="modal-header">
+                <span>About SAP GUI</span>
+                <i class="fas fa-times" style="cursor:pointer;" ng-click="ctrl.closeModal()"></i>
+            </div>
+            <div class="modal-body" style="padding: 15px; text-align: center;">
+                <div style="margin-bottom: 20px;">
+                    <i class="fas fa-window-maximize" style="font-size: 48px; color: #002e6e;"></i>
+                </div>
+                
+                <h3 style="margin: 10px 0; color: #002e6e;">SAP GUI Simulation</h3>
+                <div style="font-size: 12px; margin-bottom: 20px; color: #666;">Version 1.0.0</div>
+
+                <div style="text-align: left; margin-bottom: 20px;">
+                    <div style="margin-bottom: 10px;">
+                        <strong>Product:</strong> SAP GUI for HTML5
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Theme:</strong> Signature Theme
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Build Date:</strong> November 30, 2025
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>System:</strong> S/4HANA Cloud (Demo)
+                    </div>
+                </div>
+
+                <div style="border-top: 1px solid #ccc; padding-top: 15px; margin-top: 20px;">
+                    <strong>Technologies Used:</strong>
+                    <div style="margin-top: 10px; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px;">
+                        <div style="padding: 10px; background: #f0f0f0; border-radius: 5px; flex: 1; min-width: 100px;">
+                            <div style="font-weight: bold;">AngularJS</div>
+                            <div style="font-size: 10px;">v1.8.2</div>
+                        </div>
+                        <div style="padding: 10px; background: #f0f0f0; border-radius: 5px; flex: 1; min-width: 100px;">
+                            <div style="font-weight: bold;">FontAwesome</div>
+                            <div style="font-size: 10px;">v6.4.0</div>
+                        </div>
+                        <div style="padding: 10px; background: #f0f0f0; border-radius: 5px; flex: 1; min-width: 100px;">
+                            <div style="font-weight: bold;">CSS3</div>
+                            <div style="font-size: 10px;">Modern</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; padding: 15px; background: #e6f2ff; border-radius: 5px;">
+                    <div style="font-size: 10px; color: #666; line-height: 1.5;">
+                        This is a simulation of SAP GUI for demonstration and educational purposes.
+                        It recreates the authentic look and feel of SAP's Signature Theme.
+                        <br><br>
+                        No actual connection to SAP systems is established.
+                        All data shown is for demonstration purposes only.
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; font-size: 10px; color: #999;">
+                    © 2025 SAP GUI Simulation Project
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="sap-btn" ng-click="ctrl.closeModal()">Close</button>
+            </div>
+        </div>
+
     </div>
 
-    <script>
-        var app = angular.module('sapGuiApp', []);
-
-        app.controller('MainController', function($scope, $timeout) {
-            var vm = this;
-
-            // --- Navigation State ---
-            // 'VA01' = Sales Order
-            // 'ZKAP' = Kaprekar Routine
-            vm.currentScreen = 'VA01'; 
-
-            // --- Common State ---
-            vm.tCode = "/nVA01";
-            vm.screenTitle = "Create Standard Order: Overview";
-            
-            // --- Sales Order State ---
-            vm.activeTab = 'overview';
-            vm.orderType = 'OR';
-            vm.soldTo = '';
-            vm.soldToName = '';
-            vm.poNumber = '';
-            vm.items = [
-                { pos: '10', material: 'M-01-T500', qty: '10', uom: 'PC', desc: 'Turbo Drive 500', plant: '1000', value: '5,000.00', selected: false },
-                { pos: '20', material: 'P-99-X100', qty: '5', uom: 'PC', desc: 'Power Supply Unit', plant: '1000', value: '250.00', selected: false }
-            ];
-
-            // --- Kaprekar State ---
-            vm.kapInput = "";
-            vm.kapResults = [];
-
-            // Status Bar State
-            vm.statusMessage = "Please enter Sold-To Party.";
-            vm.statusIcon = "fas fa-exclamation-circle text-error"; 
-
-            // --- Navigation Logic ---
-            vm.checkEnter = function(event) {
-                if (event.which === 13) {
-                    vm.handleEnter();
-                }
-            };
-
-            vm.handleEnter = function() {
-                // Check Command Field first
-                if (vm.tCode.toUpperCase().startsWith('/N')) {
-                    var code = vm.tCode.toUpperCase().substring(2);
-                    if (code === 'ZKAP') {
-                        vm.switchToKaprekar();
-                    } else if (code === 'VA01') {
-                        vm.switchToSales();
-                    } else {
-                        vm.statusMessage = "Transaction " + code + " does not exist.";
-                        vm.statusIcon = "fas fa-times-circle text-error";
-                    }
-                    return;
-                }
-
-                // If not navigating, perform screen action
-                if (vm.currentScreen === 'VA01') {
-                    vm.simulateSalesEnter();
-                } else if (vm.currentScreen === 'ZKAP') {
-                    // Enter usually triggers Execute on selection screens
-                    vm.executeKaprekar(); 
-                }
-            };
-
-            vm.switchToKaprekar = function() {
-                vm.currentScreen = 'ZKAP';
-                vm.screenTitle = "Kaprekar Constant Routine (ZKAPREKAR)";
-                vm.tCode = "";
-                vm.statusMessage = "Please enter 4-digit number and execute (F8)";
-                vm.statusIcon = "";
-                vm.kapResults = [];
-                vm.kapInput = "";
-            };
-
-            vm.switchToSales = function() {
-                vm.currentScreen = 'VA01';
-                vm.screenTitle = "Create Standard Order: Overview";
-                vm.tCode = "";
-                vm.statusMessage = "Please enter Sold-To Party.";
-                vm.statusIcon = "fas fa-exclamation-circle text-error";
-            };
-
-            // --- Kaprekar Logic ---
-            vm.executeKaprekar = function() {
-                vm.kapResults = [];
-                var numStr = vm.kapInput;
-
-                // Validation
-                if (!numStr || numStr.length !== 4 || isNaN(numStr)) {
-                    vm.statusMessage = "Please enter a valid 4-digit number.";
-                    vm.statusIcon = "fas fa-times-circle text-error";
-                    return;
-                }
-
-                // Check for at least two different digits
-                var uniqueDigits = new Set(numStr.split(''));
-                if (uniqueDigits.size < 2) {
-                    vm.statusMessage = "Number must have at least two different digits.";
-                    vm.statusIcon = "fas fa-times-circle text-error";
-                    return;
-                }
-
-                vm.statusMessage = "Program executing...";
-                vm.statusIcon = "fas fa-spinner fa-spin";
-
-                // Artificial delay for "processing" feel
-                $timeout(function() {
-                    vm.runKaprekarLoop(parseInt(numStr));
-                    vm.statusMessage = "Calculation finished.";
-                    vm.statusIcon = "fas fa-check-circle text-success";
-                }, 500);
-            };
-
-            vm.resetKaprekar = function() {
-                vm.kapResults = [];
-                vm.kapInput = "";
-                vm.statusMessage = "Enter parameters.";
-                vm.statusIcon = "";
-            };
-
-            vm.runKaprekarLoop = function(startNum) {
-                var current = startNum;
-                var count = 0;
-                var KAPREKAR = 6174;
-                
-                // Helper to pad with zeros
-                var pad = (n) => String(n).padStart(4, '0');
-
-                // Header
-                vm.kapResults.push(`STARTING VALUE: ${pad(current)}`);
-                vm.kapResults.push("--------------------------------------------------");
-                vm.kapResults.push("ITER  | DESCENDING | ASCENDING  | DIFFERENCE");
-                vm.kapResults.push("--------------------------------------------------");
-
-                while (current !== KAPREKAR && count < 20) {
-                    count++;
-                    var s = pad(current);
-                    
-                    // Sort Desc
-                    var descStr = s.split('').sort((a,b) => b - a).join('');
-                    var descNum = parseInt(descStr);
-
-                    // Sort Asc
-                    var ascStr = s.split('').sort((a,b) => a - b).join('');
-                    var ascNum = parseInt(ascStr);
-
-                    var diff = descNum - ascNum;
-
-                    // Format Line: SAP Style Spacing
-                    // "   1  | 4321       | 1234       | 3087"
-                    var line = `   ${String(count).padEnd(3)}| ${descStr.padEnd(11)}| ${ascStr.padEnd(11)}| ${String(diff)}`;
-                    
-                    vm.kapResults.push(line);
-
-                    if (diff === 0) {
-                        vm.kapResults.push("Error: Result is 0. Cannot converge.");
-                        break;
-                    }
-
-                    current = diff;
-                }
-
-                if (current === KAPREKAR) {
-                     vm.kapResults.push("--------------------------------------------------");
-                     vm.kapResults.push(`CONVERGED TO ${KAPREKAR} IN ${count} STEPS.`);
-                }
-            };
-
-            // --- Sales Order Logic (Existing) ---
-            vm.simulateSalesEnter = function() {
-                if (!vm.soldTo) {
-                    vm.statusMessage = "Fill in all required entry fields";
-                    vm.statusIcon = "fas fa-times-circle text-error";
-                } else {
-                    vm.statusMessage = "Standard Order data checking...";
-                    vm.statusIcon = "fas fa-spinner fa-spin";
-                    $timeout(function() {
-                        vm.statusMessage = "Data is valid.";
-                        vm.statusIcon = "fas fa-check-circle text-success";
-                        vm.soldToName = "Tech Solutions Inc.";
-                    }, 800);
-                }
-            };
-
-            vm.save = function() {
-                if(!vm.soldTo) {
-                    vm.simulateSalesEnter();
-                    return;
-                }
-                vm.statusMessage = "Standard Order 120003495 has been saved.";
-                vm.statusIcon = "fas fa-check-circle text-success";
-                vm.tCode = "";
-            };
-
-            vm.goBack = function() {
-                if (vm.currentScreen === 'ZKAP') {
-                    // Back in report usually goes to selection or main menu
-                    vm.switchToSales(); 
-                } else {
-                    vm.statusMessage = "Data will be lost. Do you want to save?";
-                    vm.statusIcon = "fas fa-question-circle";
-                }
-            };
-            
-            vm.exit = function() {
-                document.body.innerHTML = "<div style='display:flex;justify-content:center;align-items:center;height:100%;background:#002e6e;color:white;'><h1>SAP Logoff Successful</h1></div>";
-            };
-            
-            vm.cancel = function() {
-                vm.statusMessage = "Action cancelled.";
-                vm.statusIcon = "fas fa-ban";
-            };
-
-            vm.appAction = function(actionName) {
-                vm.statusMessage = "Function '" + actionName + "' selected.";
-                vm.statusIcon = "fas fa-info-circle text-success";
-            };
-            
-            vm.showMsg = function(msg) {
-                alert("SAP GUI Simulation: " + msg);
-            };
-
-            // Grid Logic
-            vm.selectRow = function(index) {
-                vm.items.forEach(i => i.selected = false);
-                vm.items[index].selected = true;
-            };
-
-            vm.addItem = function() {
-                var nextPos = (vm.items.length + 1) * 10;
-                vm.items.push({ pos: nextPos, material: '', qty: '', uom: '', desc: '', plant: '1000', value: '0.00', selected: false });
-            };
-
-            vm.deleteItem = function() {
-                vm.items = vm.items.filter(i => !i.selected);
-            };
-
-            // F4 Help Mock
-            vm.showF4 = false;
-            vm.f4Title = "";
-            
-            vm.openF4 = function(fieldTitle) {
-                vm.f4Title = fieldTitle;
-                vm.showF4 = true;
-            };
-            
-            vm.closeF4 = function() {
-                vm.showF4 = false;
-            };
-            
-            vm.selectF4 = function(code, name) {
-                if(vm.f4Title === 'Sold-To Party') {
-                    vm.soldTo = code;
-                    vm.soldToName = name;
-                } else if(vm.f4Title === 'Order Type') {
-                    vm.orderType = code;
-                }
-                vm.showF4 = false;
-            };
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
-
-
